@@ -746,8 +746,8 @@ body {
 .f1sb, .f1-sb, .f1-status { display: none !important; }
 
 /* Honour notch / home indicator */
-.f1-nav, .f1nav { top: calc(env(safe-area-inset-top, 0) + 16px) !important; }
-.f1-dots, .f1dots { top: calc(env(safe-area-inset-top, 0) + 16px) !important; }
+.f1-nav, .f1nav { top: 14px !important; }
+.f1-dots, .f1dots { top: 14px !important; }
 .wa-notif { top: calc(env(safe-area-inset-top, 0) + 50px) !important; }
 .fs-close, .fsx, .fs-x { top: calc(env(safe-area-inset-top, 0) + 12px) !important; }
 .f1bot, .f1-bottom { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0)) !important; }
@@ -815,7 +815,7 @@ body {
 /* Nav and dots overlay the film area */
 .f1-nav, .f1nav, .f1-dots, .f1dots {
   position: absolute !important;
-  top: calc(env(safe-area-inset-top, 0) + 14px) !important;
+  top: 14px !important;
   z-index: 30 !important;
 }
 
@@ -858,7 +858,7 @@ body {
 
 .f1nav, .f1-nav {
   position: absolute !important;
-  top: calc(env(safe-area-inset-top, 0px) + 14px) !important;
+  top: 14px !important;
   left: 0 !important; right: 0 !important;
   padding: 0 22px !important;
   display: flex !important;
@@ -883,6 +883,46 @@ body {
 .f1pr, .f1-progress {
   bottom: 0 !important;
   z-index: 25 !important;
+}
+
+
+
+/* ═══════════ SECTION RHYTHM — tighter spacing ═══════════
+   Stop the 48+48=96px ivory gap between consecutive folds,
+   and shrink the dark↔light gradient transitions that read as dead space. */
+
+.f2, .f3, .f4, .f5, .f5a, .f6 .f6in, .f7 .f7in, .f8, .fold2, .fold3, .fold4, .fold5, .fold5-inner, .fold6 .fold6-inner, .fold7 .f7in, .fold7-inner {
+  padding-top: 32px !important;
+  padding-bottom: 32px !important;
+}
+.f2, .f8, .fold2, .fold8 {
+  padding-bottom: 32px !important;
+}
+
+/* Gradient transition strips: shrink from 60px → 24px */
+.f5-transition, .f6tr, .f6-transition, .f7tr, .f7-transition, .f8tr {
+  height: 24px !important;
+}
+
+/* Storyteller variations sometimes use .f5l, .f6o, .f7t, .f8v sections */
+.f5l, .f6o, .f7t, .f8v, .f9, .f10 {
+  padding-top: 32px !important;
+  padding-bottom: 32px !important;
+}
+
+/* Storyteller's own transition strips */
+.f8tr, .f9tr { height: 24px !important; }
+
+/* Fold 1's "bot" natural-flow panel: don't bleed huge bottom padding */
+.f1bot, .f1-bottom {
+  padding-top: 22px !important;
+  padding-bottom: calc(22px + env(safe-area-inset-bottom, 0)) !important;
+}
+
+/* The "free banner" + footer wrappers in some folds use generous spacing too */
+.ftr, .footer {
+  padding-top: 28px !important;
+  padding-bottom: 32px !important;
 }
 
 </style>
