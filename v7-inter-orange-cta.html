@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SiyAI — Synthesis · Inter · Orange CTA only</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing:border-box; margin:0; padding:0; -webkit-font-smoothing:antialiased; }
+
+:root {
+  --ivory:#FFFDF7; --ink:#0D0F17; --em:#40E0B0;
+  --gold:#F6D58A; --goldd:#b89a4a; --amber:#C9922A;
+  --i90:rgba(13,15,23,0.9); --i60:rgba(13,15,23,0.6);
+  --i35:rgba(13,15,23,0.35); --i20:rgba(13,15,23,0.2);
+  --i10:rgba(13,15,23,0.1); --i06:rgba(13,15,23,0.06);
+  --w90:rgba(255,255,255,0.9); --w60:rgba(255,255,255,0.6);
+  --w35:rgba(255,255,255,0.35); --w20:rgba(255,255,255,0.2);
+  --w10:rgba(255,255,255,0.1); --w06:rgba(255,255,255,0.06);
+  --wa:rgba(37,211,102,0.6);
+}
+
+body {
+  background:#100e08;
+  display:flex; justify-content:center;
+  min-height:100vh; padding:40px 20px;
+  font-family:'Inter',system-ui,sans-serif;
+}
+
+.phone {
+  width:375px; border-radius:52px; overflow:hidden;
+  border:10px solid #1c1c1e; background:var(--ivory);
+  box-shadow:0 0 0 1px rgba(255,255,255,0.04),0 60px 140px rgba(0,0,0,0.95);
+  position:relative;
+}
+
+.di {
+  position:absolute; top:10px; left:50%; transform:translateX(-50%);
+  width:120px; height:36px; background:#000;
+  border-radius:22px; z-index:1000; pointer-events:none;
+}
+
+/* ── SHARED ── */
+.cta-p {
+  width:100%; font-family:'Inter',system-ui,sans-serif; font-size:14px; font-weight:500;
+  color:#080502; background:var(--em); border:none; padding:15px;
+  border-radius:100px; cursor:pointer; letter-spacing:0.15px;
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity 0.18s,transform 0.1s;
+}
+.cta-p:hover{opacity:0.9;} .cta-p:active{transform:scale(0.98);}
+
+.cta-si {
+  width:100%; font-family:'Inter',system-ui,sans-serif; font-size:12px; font-weight:400;
+  color:var(--i35); background:var(--i06); border:0.5px solid var(--i10);
+  padding:13px; border-radius:100px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:background 0.18s;
+}
+.cta-si:hover{background:rgba(13,15,23,0.1);}
+
+.cta-sd {
+  width:100%; font-family:'Inter',system-ui,sans-serif; font-size:12px; font-weight:400;
+  color:var(--w35); background:var(--w06); border:0.5px solid rgba(255,255,255,0.1);
+  padding:13px; border-radius:100px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:background 0.18s;
+}
+.cta-sd:hover{background:rgba(255,255,255,0.08);}
+
+.spi{width:17px;height:17px;border-radius:50%;background:var(--i06);border:0.5px solid var(--i10);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.spd{width:17px;height:17px;border-radius:50%;background:var(--w06);border:0.5px solid var(--w10);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tri-i{width:0;height:0;border-top:3px solid transparent;border-bottom:3px solid transparent;border-left:5px solid var(--i35);margin-left:1px;}
+.tri-d{width:0;height:0;border-top:3px solid transparent;border-bottom:3px solid transparent;border-left:5px solid var(--w35);margin-left:1px;}
+
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.3;transform:scale(0.6);}}
+@keyframes wlit{0%,100%{transform:scaleY(1);}50%{transform:scaleY(0.35);}}
+@keyframes mwl{0%,100%{transform:scaleY(1);}50%{transform:scaleY(0.3);}}
+@keyframes mb{0%,100%{transform:translateY(0);}50%{transform:translateY(-2px);}}
+@keyframes mbe{0%,84%,100%{transform:scaleY(1);}89%{transform:scaleY(0.08);}}
+@keyframes mn{0%,100%{transform:translateY(0);opacity:0.4;}50%{transform:translateY(-4px);opacity:0.7;}}
+
+/* ══ FOLD 1 ══ */
+.f1{width:100%;height:812px;position:relative;overflow:hidden;background:#1a0e06;}
+.f1img{position:absolute;inset:0;z-index:0;}
+.f1img img{width:100%;height:100%;object-fit:cover;object-position:center 8%;display:block;}
+.ov-t{position:absolute;top:0;left:0;right:0;height:230px;background:linear-gradient(180deg,rgba(20,10,4,0.75) 0%,transparent 100%);z-index:1;pointer-events:none;}
+.ov-b{position:absolute;bottom:0;left:0;right:0;height:78%;background:linear-gradient(0deg, rgba(10,7,3,0.96) 0%, rgba(10,7,3,0.92) 22%, rgba(10,7,3,0.65) 48%, rgba(10,7,3,0.2) 78%, transparent 100%);z-index:1;pointer-events:none;}
+.ov-s{position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,10,4,0.18) 0%,transparent 12%),linear-gradient(270deg,rgba(20,10,4,0.14) 0%,transparent 12%);z-index:1;pointer-events:none;}
+.f1sb{position:absolute;top:0;left:0;right:0;height:52px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 28px 7px;z-index:10;}
+.f1tm{font-size:13px;font-weight:500;color:var(--w90);}
+.f1ic{display:flex;align-items:center;gap:6px;}
+.f1sig{display:flex;align-items:flex-end;gap:2px;height:11px;}
+.f1sb2{width:3px;border-radius:1px;background:var(--w90);}
+.f1nav{position:absolute;top:56px;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:0 24px;z-index:10;}
+.f1logo{font-family:'Inter',system-ui,sans-serif;font-size:20px;font-weight:400;color:var(--w90);letter-spacing:-0.014em;}
+.f1logo span{color:var(--em);}
+.f1mu{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,0.25);border:0.5px solid rgba(255,255,255,0.15);border-radius:100px;padding:5px 10px;cursor:pointer;}
+.f1mic{font-size:10px;} .f1mtt{font-size:9px;color:var(--w35);letter-spacing:0.3px;}
+.f1dots{position:absolute;top:56px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10;}
+.f1dot{height:2px;border-radius:1px;background:rgba(255,255,255,0.22);transition:all 0.4s;cursor:pointer;}
+.f1dot.active{background:var(--w90);} .f1dot.done{background:var(--w35);}
+.f1bot{position:absolute;bottom:0;left:0;right:0;padding:0 24px 24px;z-index:10;}
+.f1lr{display:flex;align-items:center;gap:8px;margin-bottom:11px;}
+.f1ll{width:18px;height:0.5px;background:var(--i20);}
+.f1lt{font-size:9px;color:rgba(255,253,247,0.6);letter-spacing:2.5px;text-transform:uppercase;}
+.f1ll{width:18px;height:0.5px;background:rgba(255,253,247,0.3);}
+.f1hl{font-family:'Inter',system-ui,sans-serif;font-size:31px;font-weight:500;line-height:1.07;color:#FFFDF7;letter-spacing:-0.025em;margin-bottom:7px;}
+.f1hl em{font-style:italic;color:var(--em);font-weight:400;}
+.f1hi{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;font-weight:400;color:rgba(246,213,138,0.78);margin-bottom:14px;}
+
+/* Explainer card — light-on-dark */
+.f1-explainer-d{
+  background:rgba(255,253,247,0.06);
+  border:0.5px solid rgba(255,253,247,0.12);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  border-radius:12px; padding:10px 14px; margin-bottom:16px;
+  display:flex; align-items:flex-start; gap:10px;
+}
+.f1-explainer-d .f1-exp-icon{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--em);color:#0D0F17;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:11px;
+}
+.f1-explainer-d .f1-exp-text{
+  font-family:'Inter',system-ui,sans-serif; font-style:italic;
+  font-size:13px; font-weight:400;
+  color:rgba(255,253,247,0.72); line-height:1.5;
+}
+.f1-explainer-d .f1-exp-text strong{font-weight:500;font-style:normal;color:#FFFDF7;}
+
+/* Secondary CTA — light-on-dark for the hero only */
+.f1ct .cta-si{
+  color:rgba(255,253,247,0.7);
+  background:rgba(255,253,247,0.06);
+  border:0.5px solid rgba(255,253,247,0.14);
+}
+.f1ct .cta-si:hover{background:rgba(255,253,247,0.1);}
+.f1ct .cta-si .spi{background:rgba(255,253,247,0.08);border:0.5px solid rgba(255,253,247,0.14);}
+.f1ct .cta-si .tri-i{border-left-color:rgba(255,253,247,0.6);}
+
+/* Meta strip — light glyphs */
+.f1bot .f1mi{color:rgba(255,253,247,0.55);}
+.f1bot .f1msep{background:rgba(255,253,247,0.2);}
+
+/* ── CHANGE 3: Zero-awareness explainer ── */
+.f1-explainer {
+  background:rgba(13,15,23,0.06);
+  border:0.5px solid rgba(13,15,23,0.1);
+  border-radius:12px;
+  padding:10px 14px;
+  margin-bottom:16px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.f1-exp-icon {
+  width:22px; height:22px; border-radius:50%;
+  background:var(--em);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:1px;
+  font-size:11px;
+}
+.f1-exp-text {
+  font-family:'Inter',system-ui,sans-serif; font-style:italic;
+  font-size:13px; font-weight:300;
+  color:var(--i60); line-height:1.5;
+}
+.f1-exp-text strong {
+  font-weight:400; font-style:normal; color:var(--ink);
+}
+
+.f1ct{display:flex;flex-direction:column;gap:9px;margin-bottom:12px;}
+.f1pr{position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--i06);z-index:20;}
+.f1pf{height:100%;background:var(--em);width:0%;transition:width 0.8s linear;border-radius:0 1px 1px 0;opacity:0.7;}
+
+/* ── CHANGE 1: Meta strip with social proof first ── */
+.f1meta{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;}
+.f1mi{font-size:10px;color:var(--i20);display:flex;align-items:center;gap:4px;}
+.f1msep{width:2px;height:2px;border-radius:50%;background:var(--i10);flex-shrink:0;}
+.f1wag{width:4px;height:4px;border-radius:50%;background:var(--wa);flex-shrink:0;}
+.f1wat{color:var(--wa);}
+/* Social proof dot — green for trust */
+.f1spd{width:4px;height:4px;border-radius:50%;background:var(--em);flex-shrink:0;}
+.f1spt{color:var(--em);}
+
+/* fullscreen */
+.fsov{position:absolute;inset:0;z-index:100;background:#100a04;display:none;flex-direction:column;}
+.fsov.open{display:flex;}
+.fsbg{position:absolute;inset:0;}
+.fsbg img{width:100%;height:100%;object-fit:cover;object-position:center 8%;opacity:0.45;}
+.fsdk{position:absolute;inset:0;background:rgba(20,10,4,0.6);}
+.fsx{position:absolute;top:56px;right:22px;width:38px;height:38px;border-radius:50%;background:var(--w10);border:0.5px solid var(--w20);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;color:var(--w60);font-size:15px;}
+.fsbd{position:relative;z-index:4;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:0 32px;}
+.fsey{font-size:9px;color:var(--w20);letter-spacing:3px;text-transform:uppercase;}
+.fshl{font-family:'Inter',system-ui,sans-serif;font-size:30px;font-weight:400;font-style:italic;color:var(--w90);letter-spacing:-0.02em;line-height:1.1;}
+.fshl em{color:var(--em);}
+.fssb{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:13px;color:rgba(212,165,80,0.55);}
+.fspl{width:72px;height:72px;border-radius:50%;background:var(--w10);border:1.5px solid var(--w20);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-top:8px;}
+.fstr{width:0;height:0;border-top:13px solid transparent;border-bottom:13px solid transparent;border-left:21px solid rgba(255,255,255,0.82);margin-left:5px;}
+.fsmt{font-size:10px;color:var(--w20);}
+.fsft{position:relative;z-index:4;padding:0 24px 32px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.fsct{width:100%;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:#080502;background:var(--em);border:none;padding:15px;border-radius:100px;cursor:pointer;}
+.fsbk{font-size:11px;color:var(--w20);background:none;border:none;cursor:pointer;font-family:'Inter',system-ui,sans-serif;}
+
+/* ══ FOLD 2 — Proof first, mechanic second ══ */
+.f2{background:var(--ivory);padding:48px 24px 0;}
+.sbrow{display:flex;align-items:center;gap:12px;}
+.sbn{font-size:9px;letter-spacing:2px;white-space:nowrap;}
+.sbr{flex:1;height:0.5px;}
+.sbt{font-size:9px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;}
+
+/* ── CHANGE 2: Proof first ── */
+.proof-first{margin-bottom:28px;}
+.pf-ey{font-size:9px;color:var(--em);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.pf-eyl{width:14px;height:0.5px;background:var(--em);}
+.pf-hl{font-family:'Inter',system-ui,sans-serif;font-size:26px;font-weight:500;line-height:1.12;color:var(--ink);letter-spacing:-0.022em;margin-bottom:12px;}
+.pf-hl em{font-style:italic;}
+.pf-st{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:14px;font-weight:300;color:var(--i35);line-height:1.7;margin-bottom:8px;}
+.pf-st strong{color:var(--ink);font-weight:400;font-style:normal;}
+.pf-st .hlg{color:var(--em);font-style:normal;}
+.pf-tap{font-size:11px;color:var(--i20);margin-bottom:18px;}
+
+/* WhatsApp card */
+.wac{background:#EDE9E0;border-radius:16px;overflow:hidden;border:0.5px solid var(--i06);margin-bottom:20px;}
+.wah{background:#DEDAD2;padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:0.5px solid var(--i06);}
+.waav{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,rgba(246,213,138,0.4),rgba(200,160,80,0.3));border:1px solid rgba(246,213,138,0.4);display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:14px;color:rgba(140,100,40,0.8);flex-shrink:0;}
+.wact{flex:1;}
+.wanm{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:1px;}
+.wasb{font-size:9px;color:var(--i35);}
+.wasi{font-family:'Inter',system-ui,sans-serif;font-size:11px;color:var(--i20);font-style:italic;}
+.wach{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;background:#EDE9E0;}
+.watm{font-size:10px;color:var(--i20);text-align:center;letter-spacing:0.3px;}
+.wabu{background:#fff;border-radius:12px 12px 12px 2px;padding:10px 12px;max-width:90%;align-self:flex-start;box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+.wabl{font-size:8px;color:var(--i20);letter-spacing:0.3px;margin-bottom:6px;text-transform:uppercase;}
+.wavo{display:flex;align-items:center;gap:8px;}
+.wvbtn{width:34px;height:34px;border-radius:50%;background:var(--em);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;box-shadow:0 2px 8px rgba(64,224,176,0.3);}
+.wvtr{width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:10px solid var(--ink);margin-left:2px;}
+.wvpa{display:flex;gap:3px;}
+.wvpb{width:3px;height:11px;background:var(--ink);border-radius:1.5px;}
+.wvtk{flex:1;display:flex;flex-direction:column;gap:4px;}
+.wvwf{display:flex;align-items:center;gap:1.5px;height:24px;}
+.wvb{flex:1;border-radius:2px;background:var(--i10);}
+.wvb.lit{background:var(--em);animation:wlit 0.8s ease infinite;}
+.wvtm{font-size:10px;color:var(--i20);align-self:flex-end;}
+.wabf{display:flex;justify-content:space-between;align-items:center;margin-top:6px;}
+.wbfn{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:11px;color:var(--i35);}
+.wbft{font-size:11px;color:var(--em);}
+.wano{background:rgba(255,255,255,0.5);border-radius:8px;padding:8px 12px;align-self:center;font-size:10px;color:var(--i35);text-align:center;line-height:1.5;border:0.5px solid var(--i06);}
+.wano strong{color:var(--i60);font-weight:500;}
+
+/* pi row */
+.f2pi{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.pitag{display:flex;align-items:center;gap:6px;background:var(--i06);border:0.5px solid var(--i10);border-radius:100px;padding:5px 12px;}
+.pitd{width:5px;height:5px;border-radius:50%;background:var(--em);flex-shrink:0;}
+.pitn{font-size:10px;color:var(--i35);}
+.pir{display:flex;align-items:center;gap:8px;}
+.pipr{font-family:'Inter',system-ui,sans-serif;font-size:20px;font-weight:400;color:var(--ink);letter-spacing:-0.014em;}
+.pidl{font-size:10px;color:var(--i20);display:flex;align-items:center;gap:4px;}
+.pidd{width:3px;height:3px;border-radius:50%;background:var(--wa);flex-shrink:0;}
+
+/* divider */
+.pdiv{display:flex;align-items:center;gap:12px;margin:24px 0 22px;}
+.pdivl{flex:1;height:0.5px;background:var(--i10);}
+.pdivt{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:11px;color:var(--i20);white-space:nowrap;}
+
+/* mechanic second */
+.mech-second{margin-bottom:0;}
+.mech-hl{font-family:'Inter',system-ui,sans-serif;font-size:20px;font-weight:500;line-height:1.15;color:var(--ink);letter-spacing:-0.018em;margin-bottom:5px;}
+.mech-hl em{font-style:italic;color:var(--em);}
+.mech-sub{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:13px;font-weight:300;color:var(--i35);margin-bottom:18px;line-height:1.55;}
+.steps{display:flex;flex-direction:column;gap:0;margin-bottom:0;}
+.step{display:flex;gap:14px;padding:14px 0;border-top:0.5px solid var(--i06);}
+.step:last-child{border-bottom:0.5px solid var(--i06);}
+.stepn{width:22px;height:22px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--ivory);flex-shrink:0;margin-top:2px;}
+.stepb{flex:1;}
+.stept{font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:var(--ink);letter-spacing:-0.012em;margin-bottom:3px;}
+.stept em{font-style:italic;color:var(--em);}
+.stepd{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;font-weight:300;color:var(--i35);line-height:1.5;}
+.stepeg{font-size:10px;color:var(--i20);margin-top:3px;}
+
+.f2ct{display:flex;flex-direction:column;gap:9px;padding:20px 0 48px;}
+
+/* ══ FOLD 3 — Products ══ */
+.f3{background:var(--ivory);padding:48px 24px 48px;}
+.fhl{font-family:'Inter',system-ui,sans-serif;font-size:28px;font-weight:500;line-height:1.1;color:var(--ink);letter-spacing:-0.022em;}
+.fhl em{font-style:italic;color:var(--em);}
+.fsub{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;font-weight:300;color:var(--goldd);}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 20px;}
+.pc{background:#fff;border-radius:16px;overflow:hidden;border:0.5px solid var(--i06);cursor:pointer;transition:border-color 0.2s,transform 0.15s;position:relative;}
+.pc:hover{border-color:var(--i20);transform:translateY(-1px);}
+.pc:active{transform:scale(0.98);}
+.pcbg{position:absolute;top:10px;left:10px;z-index:3;font-size:8px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:100px;}
+.bbl{background:var(--ink);color:var(--ivory);}
+.bgr{background:var(--em);color:var(--ink);}
+.bgo{background:rgba(246,213,138,0.9);color:var(--ink);}
+.pcv{width:100%;aspect-ratio:1/1;position:relative;overflow:hidden;}
+.pcvb{position:absolute;inset:0;}
+.pcvg{position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.007) 2px,rgba(255,255,255,0.007) 3px);opacity:0.4;}
+.pcvl{position:absolute;bottom:8px;left:8px;right:8px;z-index:3;font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:0.5px;text-transform:uppercase;line-height:1.3;}
+.pcvc{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;}
+.bv{background:radial-gradient(ellipse at 50% 40%,rgba(64,224,176,0.14) 0%,transparent 60%),linear-gradient(135deg,#060e06,#080e08);}
+.bp{background:radial-gradient(ellipse at 50% 35%,rgba(246,213,138,0.14) 0%,transparent 55%),linear-gradient(135deg,#0e0a04,#140c04);}
+.bs{background:radial-gradient(ellipse at 50% 40%,rgba(166,200,255,0.1) 0%,transparent 55%),linear-gradient(135deg,#060810,#08080e);}
+.bl{background:radial-gradient(ellipse at 50% 40%,rgba(246,190,100,0.1) 0%,transparent 55%),linear-gradient(135deg,#100806,#0e0806);}
+.pci{padding:10px 12px 12px;}
+.pcnm{font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:var(--ink);letter-spacing:-0.012em;margin-bottom:2px;}
+.pcds{font-size:10px;color:var(--i35);line-height:1.4;margin-bottom:8px;}
+.pcds em{font-style:italic;font-family:'Inter',system-ui,sans-serif;font-size:11px;}
+.pcbt{display:flex;justify-content:space-between;align-items:center;}
+.pcpr{font-size:15px;font-weight:500;color:var(--ink);letter-spacing:-0.012em;}
+.pcdl{font-size:9px;color:var(--i20);display:flex;align-items:center;gap:3px;}
+.pddd{width:3px;height:3px;border-radius:50%;background:var(--wa);flex-shrink:0;}
+.mwf{display:flex;align-items:center;gap:1.5px;height:20px;}
+.mwb{width:2.5px;border-radius:1.5px;background:rgba(64,224,176,0.2);}
+.mwb.a{background:var(--em);animation:mwl 0.9s ease infinite;}
+.mfc{width:36px;height:42px;position:relative;animation:mb 4s ease infinite;margin-bottom:4px;}
+.mfh{width:30px;height:34px;border-radius:50% 50% 44% 44%;background:linear-gradient(160deg,#c49060,#9a6840);position:absolute;top:6px;left:3px;overflow:hidden;}
+.mfhr{position:absolute;top:-1px;left:-2px;right:-2px;height:16px;background:#251505;border-radius:50% 50% 0 0;}
+.mfe{position:absolute;top:18px;left:0;right:0;display:flex;justify-content:space-around;padding:0 6px;}
+.mfey{width:7px;height:5px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:mbe 4s ease infinite;}
+.mfei{width:4px;height:4px;border-radius:50%;background:#3d2010;}
+.mfsm{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:10px;height:5px;border-bottom:1.5px solid rgba(42,26,10,0.4);border-radius:0 0 6px 6px;}
+.mfnk{width:10px;height:8px;background:#9a6840;margin:0 auto;border-radius:0 0 3px 3px;}
+.mali{display:flex;align-items:center;gap:3px;background:rgba(64,224,176,0.12);border:0.5px solid rgba(64,224,176,0.25);border-radius:100px;padding:2px 6px;}
+.malid{width:4px;height:4px;border-radius:50%;background:var(--em);animation:pulse 2s ease infinite;flex-shrink:0;}
+.malit{font-size:7px;color:rgba(64,224,176,0.75);}
+.mmu{font-size:24px;opacity:0.4;animation:mn 2s ease infinite;}
+.mlt{width:42px;height:30px;background:rgba(255,253,247,0.08);border:0.5px solid rgba(246,190,100,0.2);border-radius:3px;padding:5px 6px;display:flex;flex-direction:column;gap:3px;}
+.mll{height:1px;border-radius:1px;background:rgba(246,190,100,0.25);}
+.mls{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:7px;color:rgba(246,190,100,0.5);margin-top:1px;}
+.f3bt{display:flex;flex-direction:column;gap:9px;}
+.f3nt{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;font-weight:300;color:var(--i20);text-align:center;line-height:1.6;}
+.f3nt strong{color:var(--ink);font-weight:400;font-style:normal;}
+
+/* ══ FOLD 4 — Occasions ══ */
+.f4{background:var(--ivory);padding:48px 24px 48px;position:relative;overflow:hidden;}
+.f4bg{position:absolute;width:400px;height:300px;border-radius:50%;background:radial-gradient(ellipse,rgba(246,213,138,0.1) 0%,transparent 70%);top:-60px;right:-100px;pointer-events:none;z-index:0;}
+.f4in{position:relative;z-index:2;}
+.ocgr{display:flex;flex-direction:column;gap:0;margin:20px 0 16px;}
+.ocrw{display:flex;gap:10px;margin-bottom:10px;}
+.oct{flex:1;background:#fff;border:0.5px solid var(--i06);border-radius:14px;padding:12px 10px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:4px;}
+.oct:hover{border-color:var(--i20);transform:translateY(-1px);}
+.oct.active{background:var(--ink);border-color:var(--ink);}
+.ocem{font-size:20px;line-height:1;}
+.ocnm{font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:var(--ink);letter-spacing:-0.012em;transition:color 0.2s;}
+.oct.active .ocnm{color:var(--ivory);}
+.occt{font-size:9px;color:var(--i20);transition:color 0.2s;}
+.oct.active .occt{color:rgba(255,253,247,0.35);}
+.ocdet{background:var(--ink);border-radius:16px;padding:18px;margin-bottom:20px;overflow:hidden;position:relative;}
+.odgl{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(64,224,176,0.08) 0%,transparent 60%);pointer-events:none;}
+.odtp{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;position:relative;z-index:2;}
+.odlb{font-size:9px;color:var(--w20);letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+.odpf{font-size:9px;color:var(--em);}
+.odhl{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:16px;font-weight:300;color:var(--w90);line-height:1.4;margin-bottom:12px;position:relative;z-index:2;}
+.odpr{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;position:relative;z-index:2;}
+.odprd{display:flex;align-items:center;gap:5px;background:var(--w06);border:0.5px solid rgba(255,255,255,0.1);border-radius:100px;padding:4px 9px;}
+.odpd{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+.odpn{font-size:10px;color:var(--w35);}
+.odprc{font-size:10px;color:var(--em);font-weight:500;}
+.odcta{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;color:var(--ink);background:var(--em);border:none;padding:11px;border-radius:100px;cursor:pointer;width:100%;position:relative;z-index:2;}
+.f4bt{text-align:center;}
+.f4btx{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:13px;font-weight:300;color:var(--i20);line-height:1.6;margin-bottom:12px;}
+.f4btx strong{color:var(--ink);font-weight:400;font-style:normal;}
+.f4bct{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--i35);background:var(--i06);border:0.5px solid var(--i10);padding:10px 18px;border-radius:100px;cursor:pointer;}
+
+/* ══ FOLD 5 — Three territories ══ */
+.f5{background:var(--ivory);padding:48px 24px 48px;position:relative;overflow:hidden;}
+.f5bg{position:absolute;width:350px;height:250px;border-radius:50%;background:radial-gradient(ellipse,rgba(64,224,176,0.08) 0%,transparent 70%);bottom:-60px;left:-60px;pointer-events:none;z-index:0;}
+.tc-them{background:#fff;border-radius:18px;border:0.5px solid var(--i06);padding:18px 16px;margin-bottom:12px;position:relative;z-index:2;}
+.tc-them-ey{font-size:9px;color:var(--em);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.tc-them-eyl{width:14px;height:0.5px;background:var(--em);}
+.tc-them-hl{font-family:'Inter',system-ui,sans-serif;font-size:18px;font-weight:500;line-height:1.2;color:var(--ink);letter-spacing:-0.014em;margin-bottom:6px;}
+.tc-them-hl em{font-style:italic;color:var(--em);}
+.tc-them-sub{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;font-weight:300;color:var(--i35);line-height:1.6;margin-bottom:14px;}
+.tc-them-bt{display:flex;align-items:center;justify-content:space-between;}
+.tc-them-cta{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;color:#080502;background:var(--em);border:none;padding:9px 16px;border-radius:100px;cursor:pointer;}
+.tc-them-pr{font-size:12px;color:var(--i20);}
+.tc-self{background:linear-gradient(135deg,#1a0e04,#140a02);border:0.5px solid rgba(246,213,138,0.12);border-radius:18px;overflow:hidden;margin-bottom:12px;position:relative;z-index:2;}
+.tc-forever{background:linear-gradient(135deg,#080a14,#060810);border:0.5px solid rgba(64,100,200,0.15);border-radius:18px;overflow:hidden;position:relative;z-index:2;}
+.tc-inner{padding:20px 18px 18px;position:relative;overflow:hidden;}
+.tc-gl-am{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(246,213,138,0.1) 0%,transparent 55%);pointer-events:none;}
+.tc-gl-bl{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 30%,rgba(64,100,200,0.1) 0%,transparent 55%);pointer-events:none;}
+.tc-lbl-am{font-size:9px;color:rgba(246,213,138,0.5);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;position:relative;z-index:2;display:flex;align-items:center;gap:8px;}
+.tc-lbl-bl{font-size:9px;color:rgba(120,160,255,0.5);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;position:relative;z-index:2;display:flex;align-items:center;gap:8px;}
+.tc-lline-am{width:14px;height:0.5px;background:rgba(246,213,138,0.4);}
+.tc-lline-bl{width:14px;height:0.5px;background:rgba(120,160,255,0.4);}
+.tc-hl{font-family:'Inter',system-ui,sans-serif;font-size:20px;font-weight:500;line-height:1.15;color:var(--w90);letter-spacing:-0.016em;margin-bottom:8px;position:relative;z-index:2;}
+.em-am{font-style:italic;color:rgba(246,213,138,0.8);}
+.em-bl{font-style:italic;color:rgba(120,160,255,0.7);}
+.tc-desc{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:13px;font-weight:300;color:var(--w35);line-height:1.55;margin-bottom:14px;position:relative;z-index:2;}
+.tc-cta-am{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;background:rgba(246,213,138,0.15);color:rgba(246,213,138,0.8);border:0.5px solid rgba(246,213,138,0.2);padding:10px 18px;border-radius:100px;cursor:pointer;position:relative;z-index:2;}
+.tc-cta-bl{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:500;background:rgba(120,160,255,0.12);color:rgba(120,160,255,0.7);border:0.5px solid rgba(120,160,255,0.2);padding:10px 18px;border-radius:100px;cursor:pointer;position:relative;z-index:2;}
+.tc-pr-am{font-size:11px;color:rgba(255,255,255,0.25);position:relative;z-index:2;margin-top:8px;}
+.tc-pr-bl{font-size:11px;color:rgba(120,160,255,0.3);position:relative;z-index:2;margin-top:8px;}
+
+/* ══ FOLD 6 — Vault ══ */
+.f6{background:var(--ink);position:relative;overflow:hidden;}
+.f6tr{height:60px;background:linear-gradient(to bottom,var(--ivory),var(--ink));}
+.f6gl{position:absolute;width:350px;height:350px;border-radius:50%;background:radial-gradient(ellipse,rgba(246,213,138,0.07) 0%,transparent 65%);top:10%;left:-80px;pointer-events:none;z-index:0;}
+.f6gr{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(ellipse,rgba(64,224,176,0.05) 0%,transparent 65%);bottom:15%;right:-60px;pointer-events:none;z-index:0;}
+.f6grn{position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.005) 2px,rgba(255,255,255,0.005) 3px);opacity:0.4;pointer-events:none;z-index:0;}
+.f6in{padding:0 24px 48px;position:relative;z-index:2;}
+.f6ey{font-size:9px;color:var(--em);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.f6eyl{width:14px;height:0.5px;background:var(--em);}
+.f6hl{font-family:'Inter',system-ui,sans-serif;font-size:28px;font-weight:500;line-height:1.1;color:var(--w90);letter-spacing:-0.022em;margin-bottom:14px;}
+.f6hl em{font-style:italic;color:var(--em);}
+.f6st{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:15px;font-weight:300;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:24px;}
+.f6st strong{color:var(--w90);font-weight:400;font-style:normal;}
+.f6st .f6am{color:var(--amber);font-style:normal;}
+.vc{background:var(--w06);border:0.5px solid rgba(255,255,255,0.08);border-radius:18px;overflow:hidden;margin-bottom:16px;}
+.vch{padding:14px 16px;border-bottom:0.5px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;}
+.vctit{display:flex;flex-direction:column;gap:3px;}
+.vclb{font-size:9px;color:var(--w20);letter-spacing:2px;text-transform:uppercase;}
+.vcnm{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:18px;color:rgba(255,255,255,0.82);}
+.vcyr{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:14px;color:var(--w20);margin-left:4px;}
+.vcba{display:flex;align-items:center;gap:5px;background:rgba(64,224,176,0.08);border:0.5px solid rgba(64,224,176,0.18);border-radius:100px;padding:4px 10px;}
+.vcbd{width:5px;height:5px;border-radius:50%;background:var(--em);animation:pulse 2s ease infinite;flex-shrink:0;}
+.vcbt{font-size:9px;color:rgba(64,224,176,0.7);}
+.vcq{padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:0.5px solid rgba(255,255,255,0.05);}
+.vqi{display:flex;flex-direction:column;gap:2px;}
+.vql{font-size:9px;color:var(--w20);letter-spacing:1px;text-transform:uppercase;}
+.vqv{font-family:'Inter',system-ui,sans-serif;font-size:15px;color:rgba(255,255,255,0.7);}
+.vqs{font-size:10px;color:rgba(255,255,255,0.25);}
+.vctl{padding:12px 16px;}
+.vctll{font-size:9px;color:var(--w20);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.vctis{display:flex;flex-direction:column;gap:8px;}
+.vcti{display:flex;align-items:center;gap:10px;}
+.vctid{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.vctit{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;color:rgba(255,255,255,0.5);flex:1;}
+.vctit strong{color:var(--w90);font-weight:400;font-style:normal;}
+.vctiy{font-size:10px;color:var(--w20);white-space:nowrap;}
+.freebn{background:linear-gradient(135deg,rgba(64,224,176,0.08),rgba(64,224,176,0.04));border:0.5px solid rgba(64,224,176,0.15);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.fbl{display:flex;flex-direction:column;gap:3px;}
+.fbm{font-family:'Inter',system-ui,sans-serif;font-size:15px;color:var(--w90);}
+.fbm em{font-style:italic;color:var(--em);}
+.fbs{font-size:10px;color:var(--w20);}
+.fbb{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:500;color:var(--ink);background:var(--em);border:none;padding:9px 14px;border-radius:100px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.f6ct{display:flex;flex-direction:column;gap:9px;}
+
+/* ══ FOLD 7 — Trust ══ */
+.f7{background:var(--ivory);position:relative;overflow:hidden;}
+.f7tr{height:60px;background:linear-gradient(to bottom,var(--ink),var(--ivory));}
+.f7bg{position:absolute;width:400px;height:300px;border-radius:50%;background:radial-gradient(ellipse,rgba(246,213,138,0.1) 0%,transparent 70%);top:-60px;left:50%;transform:translateX(-50%);pointer-events:none;z-index:0;}
+.f7in{padding:0 24px 48px;position:relative;z-index:2;}
+.f7hl{font-family:'Inter',system-ui,sans-serif;font-size:26px;font-weight:500;line-height:1.1;color:var(--ink);letter-spacing:-0.022em;margin-bottom:7px;}
+.f7hl em{font-style:italic;color:var(--em);}
+.f7sub{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:13px;font-weight:300;color:var(--i35);line-height:1.6;margin-bottom:24px;}
+.tl{margin-bottom:24px;}
+.ti{padding:18px 0;border-top:0.5px solid var(--i06);display:flex;flex-direction:column;gap:6px;}
+.ti:last-child{border-bottom:0.5px solid var(--i06);}
+.titp{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.titl{font-family:'Inter',system-ui,sans-serif;font-size:16px;font-weight:500;color:var(--ink);letter-spacing:-0.012em;line-height:1.2;}
+.tick{width:22px;height:22px;border-radius:50%;background:rgba(64,224,176,0.12);border:0.5px solid rgba(64,224,176,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:var(--em);}
+.tibd{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;font-weight:300;color:var(--i35);line-height:1.6;}
+.privb{background:var(--ink);border-radius:16px;padding:18px;margin-bottom:20px;position:relative;overflow:hidden;}
+.pbgl{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(246,213,138,0.06) 0%,transparent 60%);pointer-events:none;}
+.pbq{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:15px;font-weight:300;color:rgba(255,255,255,0.65);line-height:1.6;margin-bottom:12px;position:relative;z-index:2;}
+.pbq em{color:var(--w90);}
+.pbq .pbam{color:var(--amber);font-style:normal;}
+.pbis{display:flex;flex-direction:column;gap:7px;position:relative;z-index:2;}
+.pbi{display:flex;align-items:flex-start;gap:9px;}
+.pbid{width:5px;height:5px;border-radius:50%;background:rgba(64,224,176,0.5);flex-shrink:0;margin-top:4px;}
+.pbit{font-size:11px;color:var(--w20);letter-spacing:0.2px;line-height:1.5;}
+.f7hm{margin-bottom:20px;}
+.f7hmhl{font-family:'Inter',system-ui,sans-serif;font-size:17px;font-weight:500;color:var(--ink);letter-spacing:-0.014em;margin-bottom:6px;line-height:1.2;}
+.f7hmhl em{font-style:italic;color:var(--em);}
+.f7hmsb{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;font-weight:300;color:var(--i35);line-height:1.6;}
+.f7ct{display:flex;flex-direction:column;gap:9px;}
+.f7nt{font-size:11px;color:var(--i20);text-align:center;line-height:1.6;}
+
+/* ══ FOLD 8 — Close ══ */
+.f8{background:var(--ivory);padding:48px 24px 0;position:relative;overflow:hidden;}
+.f8bg{position:absolute;width:500px;height:400px;border-radius:50%;background:radial-gradient(ellipse,rgba(246,213,138,0.12) 0%,transparent 70%);top:-80px;left:50%;transform:translateX(-50%);pointer-events:none;z-index:0;}
+.f8in{position:relative;z-index:2;}
+.f8shl{font-family:'Inter',system-ui,sans-serif;font-size:26px;font-weight:500;line-height:1.1;color:var(--ink);letter-spacing:-0.022em;margin-bottom:6px;}
+.f8shl em{font-style:italic;color:var(--em);}
+.f8ssb{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;font-weight:300;color:var(--i35);margin-bottom:20px;line-height:1.5;}
+.str{display:flex;border-top:0.5px solid var(--i06);margin-bottom:28px;}
+.sti{flex:1;padding:14px 0;display:flex;flex-direction:column;gap:3px;border-right:0.5px solid var(--i06);}
+.sti:last-child{border-right:none;}
+.stn{font-family:'Inter',system-ui,sans-serif;font-size:20px;font-weight:500;color:var(--ink);letter-spacing:-0.018em;}
+.stl{font-size:9px;color:var(--i20);letter-spacing:1px;text-transform:uppercase;line-height:1.3;}
+.testis{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.tcard{background:#fff;border:0.5px solid var(--i06);border-radius:16px;padding:16px;}
+.tctp{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.tcav{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,rgba(246,213,138,0.2),var(--i06));border:0.5px solid var(--i06);display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:13px;color:var(--i20);flex-shrink:0;}
+.tcin{flex:1;}
+.tcnm{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:1px;}
+.tcmt{font-size:9px;color:var(--i20);letter-spacing:0.3px;}
+.tcst{display:flex;gap:2px;}
+.tcs{font-size:11px;color:var(--gold);}
+.tcq{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:14px;font-weight:300;color:var(--i60);line-height:1.55;margin-bottom:8px;}
+.tcq em{color:var(--em);font-style:normal;font-weight:400;}
+.tcpt{display:inline-flex;align-items:center;gap:5px;background:var(--i06);border-radius:100px;padding:3px 10px;}
+.tptd{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+.tptn{font-size:9px;color:var(--i35);}
+.finbl{background:var(--ink);border-radius:20px;padding:26px 20px;position:relative;overflow:hidden;margin-bottom:20px;}
+.fingl{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(64,224,176,0.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(246,213,138,0.06) 0%,transparent 50%);pointer-events:none;}
+.finey{font-size:9px;color:var(--w20);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;position:relative;z-index:2;display:flex;align-items:center;gap:8px;}
+.fineyl{width:14px;height:0.5px;background:var(--w20);}
+.finhl{font-family:'Inter',system-ui,sans-serif;font-size:24px;font-weight:500;line-height:1.1;color:var(--w90);letter-spacing:-0.02em;margin-bottom:6px;position:relative;z-index:2;}
+.finhl em{font-style:italic;color:var(--em);}
+.finhi{font-family:'Inter',system-ui,sans-serif;font-style:italic;font-size:12px;font-weight:300;color:var(--goldd);margin-bottom:22px;position:relative;z-index:2;}
+.fincp{width:100%;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:500;color:var(--ink);background:var(--em);border:none;padding:14px;border-radius:100px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-bottom:9px;position:relative;z-index:2;}
+.fincs{width:100%;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:400;color:var(--w35);background:var(--w06);border:0.5px solid rgba(255,255,255,0.1);padding:13px;border-radius:100px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;z-index:2;}
+.ftr{border-top:0.5px solid var(--i06);padding:24px 0 40px;display:flex;flex-direction:column;gap:14px;}
+.ftrl{font-family:'Inter',system-ui,sans-serif;font-size:18px;font-weight:500;color:var(--ink);letter-spacing:-0.012em;}
+.ftrl span{color:var(--em);}
+.ftrls{display:flex;flex-wrap:wrap;gap:6px 14px;}
+.ftrlk{font-size:11px;color:var(--i35);cursor:pointer;transition:color 0.2s;}
+.ftrlk:hover{color:var(--i60);}
+.ftrbt{font-size:10px;color:var(--i20);line-height:1.6;}
+
+/* ═══════════════════════════════════════════════
+   E · Synthesis grafts
+   ═══════════════════════════════════════════════ */
+
+/* Mint halo + V1's "Gift a Voice Letter" feel — beef up the CTA shadow */
+.cta-p {
+  box-shadow:
+    0 6px 22px -6px rgba(154,225,157,0.9),
+    0 22px 60px -18px rgba(154,225,157,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.4),
+    0 0 0 1px rgba(43,184,144,0.22);
+}
+
+/* ── WhatsApp notification (graft from V5) ── */
+.wa-notif {
+  position:absolute; top:62px; left:16px; right:16px;
+  z-index:30;
+  background:rgba(18,18,18,0.88);
+  border-radius:14px; padding:10px 12px;
+  display:flex; align-items:center; gap:10px;
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:0.5px solid rgba(255,255,255,0.1);
+  transform:translateY(-90px); opacity:0;
+  transition:transform 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.45s ease;
+  cursor:pointer;
+  box-shadow: 0 12px 32px -10px rgba(0,0,0,0.5);
+}
+.wa-notif.show { transform:translateY(0); opacity:1; }
+.wan-icon { width:32px; height:32px; border-radius:8px; background:#25D366;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; }
+.wan-body { flex:1; min-width:0; }
+.wan-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:2px; }
+.wan-app { font-family:'Inter',system-ui,sans-serif; font-size:10px; color:rgba(255,255,255,0.42); letter-spacing:0.3px; }
+.wan-time { font-family:'Inter',system-ui,sans-serif; font-size:10px; color:rgba(255,255,255,0.3); }
+.wan-sender { font-family:'Inter',system-ui,sans-serif; font-size:12px; font-weight:500; color:rgba(255,255,255,0.92); margin-bottom:2px; }
+.wan-msg { display:flex; align-items:center; gap:6px; }
+.wan-play { width:18px; height:18px; border-radius:50%; background:#25D366;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.wan-tri { width:0; height:0; border-top:4px solid transparent; border-bottom:4px solid transparent;
+  border-left:6px solid #fff; margin-left:1px; }
+.wan-txt { font-family:'Inter',system-ui,sans-serif; font-size:11px; color:rgba(255,255,255,0.6); }
+@keyframes notif-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+  50% { box-shadow: 0 0 0 5px rgba(37,211,102,0.18); }
+}
+.wa-notif.show .wan-play { animation: notif-pulse 2.4s ease infinite; }
+
+/* ── iframe context — drop dark stage when embedded in canvas ── */
+html.in-iframe, html.in-iframe body { background: transparent !important; }
+html.in-iframe body { padding: 0 !important; min-height: 0 !important; align-items: flex-start !important; }
+html.in-iframe .phone { box-shadow: 0 30px 80px rgba(0,0,0,0.25); }
+
+
+/* ───── Inter font fine-tuning ───── */
+body, button { font-family: 'Inter', system-ui, -apple-system, sans-serif; font-feature-settings: 'cv11','ss01','ss03'; }
+em { font-style: italic; font-weight: inherit; }
+h1, h2, h3, .f1hl, .pf-hl, .mech-hl, .fhl, .f6hl, .f7hl, .f8shl, .finhl, .f1-headline-new, .tc-hl, .tc-them-hl, .f2-headline, .fold-hl, .fold-headline, .proof-hl {
+  font-feature-settings: 'cv11','ss01','ss03','tnum';
+}
+/* Make italic emphasis a bit lighter than its parent so the contrast still reads as "the soft, emotional word" */
+.f1hl em, .pf-hl em, .mech-hl em, .fhl em, .f6hl em, .f7hl em, .finhl em, .tc-hl em, .tc-them-hl em, .f1-headline-new em, .f2-headline em, .fold-hl em, .proof-hl em, .f6hmhl em, .f7hmhl em, .f8hl em, .f8shl em {
+  font-weight: 400; letter-spacing: -0.005em;
+}
+/* Pull the "italic" lede down to 400 and add proper italic settings */
+.f1-subhead, .f1sub, .f2-story, .f2st, .mech-sub, .proof-st, .pf-st, .fold-sub, .fsub, .f6st, .f6-getbusy, .f7sub, .f8ssb, .finhi, .f1hi, .f1-hi {
+  font-weight: 400;
+}
+/* Geist Mono replacements (already swapped above) — give monospaced labels a tabular flavour via tnum */
+.eyebrow, .sb-n, .sb-t, .sbn, .sbt, .f1-eb-txt, .f1-lt, .f1-fl-text, .pf-ey, .proof-ey, .mech-sub, .wa-time, .watm, .wabl, .stl, .stn, .tc-product-thumb, .tc-thumb-label, .pic-tn, .pit-name, .pit-nm, .pitn, .step-num, .stepn {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: 'tnum','cv11';
+  font-variant-numeric: tabular-nums;
+}
+
+
+
+/* ═══════════ MOBILE-FIRST: phone mock REMOVED ═══════════
+   Renders edge-to-edge on any device. No phone-in-a-phone. */
+html, body {
+  background: #FFFDF7 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+}
+body {
+  display: block !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+.phone, .phone-shell {
+  width: 100% !important;
+  max-width: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+.di, .dynamic-island { display: none !important; }
+
+/* Fold-1 height: full viewport not fixed 812 */
+.f1, .fold1 { height: 100vh !important; min-height: 600px !important; max-height: none !important; }
+
+/* Hide fake status bar */
+.f1sb, .f1-sb, .f1-status { display: none !important; }
+
+/* Honour notch / home indicator */
+.f1-nav, .f1nav { top: 14px !important; }
+.f1-dots, .f1dots { top: 14px !important; }
+.wa-notif { top: calc(env(safe-area-inset-top, 0) + 50px) !important; }
+.fs-close, .fsx, .fs-x { top: calc(env(safe-area-inset-top, 0) + 12px) !important; }
+.f1bot, .f1-bottom { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0)) !important; }
+
+/* Cap content width on tablets/desktop — design stays mobile, just centred */
+@media (min-width: 540px) {
+  .phone, .phone-shell {
+    max-width: 540px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 0 0 1px rgba(13,15,23,0.06) !important;
+  }
+  body { background: #F3EFE3 !important; }
+}
+
+
+/* ═══════════ FOLD 1 — flex layout (replaces absolute bottom pin) ═══════════ */
+.f1, .fold1 {
+  height: auto !important;
+  min-height: 100dvh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+}
+
+/* Film/hero visual takes proportional top space, content panel sits below */
+.f1img, .f1-video, .f1-img {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: 56dvh !important;
+  min-height: 360px !important;
+  flex-shrink: 0 !important;
+}
+.f1img canvas, .f1-video img, .f1-img img, .f1img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center 12% !important;
+  display: block !important;
+}
+
+/* Overlays follow the film container, not the whole fold */
+.ov-t, .f1-ov-top    { top: 0 !important; height: 120px !important; bottom: auto !important; }
+.ov-b, .f1-ov-bottom { display: none !important; }
+.ov-s, .f1-ov-sides  { display: none !important; }
+
+/* Bottom panel: natural flow, takes remaining space */
+.f1bot, .f1-bottom {
+  position: relative !important;
+  bottom: auto !important;
+  left: auto; right: auto;
+  padding: 22px 22px calc(28px + env(safe-area-inset-bottom, 0)) !important;
+  max-height: none !important;
+  overflow: visible !important;
+  background: #FFFDF7 !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+/* If the variant uses a dark hero (v5), keep bottom panel dark */
+.f1bot.dark, .f1-bottom.dark { background: #0a0703 !important; }
+
+/* Nav and dots overlay the film area */
+.f1-nav, .f1nav, .f1-dots, .f1dots {
+  position: absolute !important;
+  top: 14px !important;
+  z-index: 30 !important;
+}
+
+/* Headline / hindi defaults */
+.f1lr, .f1-lr, .f1-lbl-row, .f1-film-label { margin-bottom: 8px !important; }
+.f1hl, .f1-hl, .f1-headline, .f1-headline-new {
+  font-size: 28px !important; line-height: 1.04 !important; margin-bottom: 6px !important;
+}
+.f1hi, .f1-hi, .f1-subhead { font-size: 12.5px !important; margin-bottom: 12px !important; }
+.f1-explainer, .f1-explainer-d {
+  padding: 10px 12px !important; margin-bottom: 0 !important;
+}
+
+/* CTAs stack tight with a small breath */
+.f1ct, .f1-ctas, .f1-ct { gap: 8px !important; margin: 4px 0 6px !important; }
+
+/* Meta strip sits last */
+.f1meta, .f1-meta, .meta-row { margin-top: 4px !important; }
+
+/* Progress bar lands at the very bottom edge of the fold */
+.f1pr, .f1-progress {
+  position: absolute !important; bottom: 0 !important; left: 0; right: 0;
+  z-index: 25 !important;
+}
+
+/* Wider screens — keep design centred at mobile width */
+@media (min-width: 540px) {
+  .f1img, .f1-video, .f1-img { height: 50dvh !important; }
+}
+
+
+
+/* ═══════════ FOLD 1 — clean top bar ═══════════
+   Kill the dots/progress affordance and the autoplay mute button.
+   They were studio conventions that don't fit a public homepage.
+   Keep only the SiyAI wordmark, properly placed under the device notch. */
+
+.f1dots, .f1-dots { display: none !important; }
+.f1mu, .f1-mute, #f1Dots { display: none !important; }
+
+.f1nav, .f1-nav {
+  position: absolute !important;
+  top: 14px !important;
+  left: 0 !important; right: 0 !important;
+  padding: 0 22px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  z-index: 30 !important;
+  background: transparent !important;
+}
+
+/* Wordmark sits clean on the film — soft drop shadow for legibility */
+.f1logo, .f1-logo {
+  font-family: 'Fraunces', serif !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em !important;
+  color: #FFFDF7 !important;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.4) !important;
+}
+.f1logo span, .f1-logo span { color: #40E0B0 !important; }
+
+/* Progress bar at very bottom of fold remains useful — push it just above safe area */
+.f1pr, .f1-progress {
+  bottom: 0 !important;
+  z-index: 25 !important;
+}
+
+
+
+/* ═══════════ SECTION RHYTHM — tighter spacing ═══════════
+   Stop the 48+48=96px ivory gap between consecutive folds,
+   and shrink the dark↔light gradient transitions that read as dead space. */
+
+.f2, .f3, .f4, .f5, .f5a, .f6 .f6in, .f7 .f7in, .f8, .fold2, .fold3, .fold4, .fold5, .fold5-inner, .fold6 .fold6-inner, .fold7 .f7in, .fold7-inner {
+  padding-top: 32px !important;
+  padding-bottom: 32px !important;
+}
+.f2, .f8, .fold2, .fold8 {
+  padding-bottom: 32px !important;
+}
+
+/* Gradient transition strips: shrink from 60px → 24px */
+.f5-transition, .f6tr, .f6-transition, .f7tr, .f7-transition, .f8tr {
+  height: 24px !important;
+}
+
+/* Storyteller variations sometimes use .f5l, .f6o, .f7t, .f8v sections */
+.f5l, .f6o, .f7t, .f8v, .f9, .f10 {
+  padding-top: 32px !important;
+  padding-bottom: 32px !important;
+}
+
+/* Storyteller's own transition strips */
+.f8tr, .f9tr { height: 24px !important; }
+
+/* Fold 1's "bot" natural-flow panel: don't bleed huge bottom padding */
+.f1bot, .f1-bottom {
+  padding-top: 22px !important;
+  padding-bottom: calc(22px + env(safe-area-inset-bottom, 0)) !important;
+}
+
+/* The "free banner" + footer wrappers in some folds use generous spacing too */
+.ftr, .footer {
+  padding-top: 28px !important;
+  padding-bottom: 32px !important;
+}
+
+
+
+/* ═══════════ ORANGE PRIMARY CTA ONLY ═══════════
+   Action color shifts to orange. All other brand
+   accents (emerald, gold, ink) stay untouched. */
+:root {
+  --cta-orange: #FF7A45;
+  --cta-orange-d: #E5642E;
+  --cta-orange-halo: rgba(255,176,136,0.55);
+}
+
+/* Primary CTA — every flavor of the green pill */
+.cta-p, .fincp, .fbb, .odcta, .od-cta, .fsct, .fs-cta, .fb-btn,
+.tc-them-cta, .tc-cta-g, .final-cta-p {
+  background: var(--cta-orange) !important;
+  color: #FFFDF7 !important;
+  box-shadow:
+    0 6px 22px -6px var(--cta-orange-halo),
+    0 22px 60px -18px var(--cta-orange-halo),
+    inset 0 1px 0 rgba(255,255,255,0.25),
+    0 0 0 1px rgba(229,100,46,0.3) !important;
+}
+.cta-p:hover, .fincp:hover, .fbb:hover { background: var(--cta-orange-d) !important; }
+
+/* Send icon inside CTA — soft white pill so it reads on orange */
+.f1-send-icon, .send-ic {
+  background: rgba(255,255,255,0.22) !important;
+  color: #FFFDF7 !important;
+}
+
+/* Voice play button (the green circle in WhatsApp bubble) — also a primary action */
+.wv-btn, .wvbtn {
+  background: var(--cta-orange) !important;
+  box-shadow: 0 2px 8px rgba(255,122,69,0.35) !important;
+}
+.wv-tri, .wvtr { border-left-color: #FFFDF7 !important; }
+.wv-pb, .wvpb { background: #FFFDF7 !important; }
+
+</style>
+</head>
+<body>
+<div class="phone">
+<div class="di"></div>
+
+<!-- ═══════════ FOLD 1 — Cinematic hook + 3 changes ═══════════ -->
+<div class="f1">
+  <div class="f1img">
+    <canvas id="filmCanvas" style="width:100%;height:100%;display:block;background:#1a1408;"></canvas>
+  </div>
+  <div class="ov-t"></div><div class="ov-b"></div><div class="ov-s"></div>
+
+  <div class="f1sb">
+    <span class="f1tm">9:41</span>
+    <div class="f1ic">
+      <div class="f1sig"><div class="f1sb2" style="height:28%"></div><div class="f1sb2" style="height:52%"></div><div class="f1sb2" style="height:76%"></div><div class="f1sb2" style="height:100%"></div></div>
+      <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><rect x=".5" y=".5" width="20" height="11" rx="3" stroke="rgba(255,255,255,0.28)"/><rect x="2" y="2" width="15" height="8" rx="1.5" fill="rgba(255,255,255,0.7)"/></svg>
+    </div>
+  </div>
+
+  <div class="f1dots" id="f1dots"></div>
+
+    <div class="f1nav">
+    <div class="f1logo">Siy<span>AI</span></div>
+    <div class="f1mu" onclick="toggleMute()">
+      <span class="f1mic" id="mI">🔇</span>
+      <span class="f1mtt" id="mT">Unmute</span>
+    </div>
+  </div>
+
+  <div class="f1bot">
+    <div class="f1lr"><div class="f1ll"></div><span class="f1lt" id="f1lb">A SiyAI Film · Papa ki 60th Birthday</span></div>
+    <h1 class="f1hl" id="f1hl">There's a <em>movie</em><br>hidden in every life.</h1>
+    <p class="f1hi" id="f1hi">Har zindagi mein ek film chupi hai.</p>
+
+    <!-- CHANGE 3 — Zero-awareness explainer above CTA -->
+    <div class="f1-explainer-d">
+      <div class="f1-exp-icon">▶</div>
+      <p class="f1-exp-text">
+        <strong>Send us a voice note and some photos.</strong>
+        We deliver a film — in their voice, their face, their handwriting. On WhatsApp. In 4 hours.
+      </p>
+    </div>
+
+    <div class="f1ct">
+      <button class="cta-p">Gift a Voice Letter · ₹299 →</button>
+      <button class="cta-si" onclick="openFS()"><div class="spi"><div class="tri-i"></div></div>Watch the full sample film</button>
+    </div>
+
+    <!-- CHANGE 1 — Social proof first in meta strip -->
+    <div class="f1meta">
+      <div class="f1mi"><div class="f1spd"></div><span class="f1spt">10,000 families</span></div>
+      <div class="f1msep"></div>
+      <div class="f1mi"><div class="f1wag"></div><span class="f1wat">WhatsApp delivery</span></div>
+      <div class="f1msep"></div>
+      <div class="f1mi">Starting ₹299</div>
+    </div>
+  </div>
+  <div class="f1pr"><div class="f1pf" id="f1pf"></div></div>
+
+  <div class="fsov" id="fsov">
+    <div class="fsbg" style="background:radial-gradient(50% 55% at 50% 35%, rgba(196,144,96,0.4), transparent 65%), radial-gradient(60% 40% at 50% 90%, rgba(64,224,176,0.2), transparent 65%), #100a04;"></div>
+    <div class="fsdk"></div>
+    <div class="fsx" onclick="closeFS()">✕</div>
+    <div class="fsbd"><span class="fsey">Full Sample Film</span><h2 class="fshl">Papa ki <em>60th</em> Birthday</h2><p class="fssb">Sharma Family · Delhi · 2024</p><div class="fspl"><div class="fstr"></div></div><p class="fsmt">1 min 42 sec · Sound on · Memory Film</p></div>
+    <div class="fsft"><button class="fsct">Film Your Memory →</button><button class="fsbk" onclick="closeFS()">← Back</button></div>
+  </div>
+</div>
+
+<!-- ═══════════ FOLD 2 — CHANGE 2: Proof first, mechanic second ═══════════ -->
+<div class="f2">
+  <div class="sbrow" style="margin-bottom:28px">
+    <span class="sbn" style="color:rgba(13,15,23,0.2)">№ 01</span>
+    <div class="sbr" style="background:rgba(13,15,23,0.1)"></div>
+    <span class="sbt" style="color:rgba(13,15,23,0.2)">A Real Moment</span>
+  </div>
+
+  <!-- PART A: Emotional proof FIRST -->
+  <div class="proof-first">
+    <div class="pf-ey"><div class="pf-eyl"></div>A real memory</div>
+    <h2 class="pf-hl">On Diwali, Papa wished us.<br><em>He has been gone three years.</em></h2>
+    <p class="pf-st"><strong>This is the kind of moment we make.</strong> Built from a 30-second voice note her son had on his phone, and three old photographs.<br><br>The family asked us not to share the audio. <span class="hlg">They listen alone.</span></p>
+    <p class="pf-tap">Tap play to hear what arrived on WhatsApp.</p>
+
+    <div class="wac">
+      <div class="wah"><div class="waav">प</div><div class="wact"><p class="wanm">Papa</p><p class="wasb">SiyAI · delivered today, 09:14</p></div><span class="wasi">SiyAI</span></div>
+      <div class="wach">
+        <div class="watm">HAPPY DIWALI · 09:14</div>
+        <div class="wabu">
+          <p class="wabl">Voice Message · 0:60</p>
+          <div class="wavo">
+            <div class="wvbtn" id="wvBtn" onclick="toggleVoice()"><div id="wvIcon" class="wvtr"></div></div>
+            <div class="wvtk"><div class="wvwf" id="wvWF"></div><span class="wvtm" id="wvTm">0:00</span></div>
+          </div>
+          <div class="wabf"><span class="wbfn">— Papa ki awaaz mein</span><span class="wbft">✓✓</span></div>
+        </div>
+        <div class="wano"><strong>Built from a 30-second voice note.</strong><br>Three old photographs. Made in 4 hours.</div>
+      </div>
+    </div>
+
+    <div class="f2pi">
+      <div class="pitag"><div class="pitd"></div><span class="pitn">AI Voice Letter</span></div>
+      <div class="pir"><span class="pipr">₹299</span><div class="pidl"><div class="pidd"></div>4 hrs · WhatsApp</div></div>
+    </div>
+    <div class="f2ct" style="padding-bottom:0">
+      <button class="cta-p">Film Your Memory — ₹299 →</button>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="pdiv"><div class="pdivl"></div><span class="pdivt">How we made this</span><div class="pdivl"></div></div>
+
+  <!-- PART B: Mechanic SECOND — now answers the "how?" question naturally -->
+  <div class="mech-second">
+    <h2 class="mech-hl">Share a moment.<br><em>We'll make it a film.</em></h2>
+    <p class="mech-sub">Any memory. Any person. We turn it into something cinematic — on WhatsApp.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="stepn">1</div>
+        <div class="stepb">
+          <p class="stept">Share <em>anything</em></p>
+          <p class="stepd">A voice note. A photo. A memory — however small, however old.</p>
+          <p class="stepeg">E.g. A 30-sec clip + three old photos = what you just heard.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="stepn">2</div>
+        <div class="stepb">
+          <p class="stept">We craft your <em>film</em></p>
+          <p class="stepd">AI and our human team together. Every piece reviewed before it leaves us.</p>
+          <p class="stepeg">Ready in 4–24 hours. Real people. Real care.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="stepn">3</div>
+        <div class="stepb">
+          <p class="stept">It arrives on <em>WhatsApp</em></p>
+          <p class="stepd">No app. No account. No login. Just your film — ready to keep or gift.</p>
+          <p class="stepeg">Starting ₹299. Same day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="f2ct">
+    <button class="cta-p">Film Your Memory →</button>
+    <button class="cta-si">See all four ways to film a memory</button>
+  </div>
+</div>
+
+<!-- ═══════════ FOLD 3 — Products ═══════════ -->
+<div class="f3">
+  <div class="sbrow" style="margin-bottom:24px">
+    <span class="sbn" style="color:rgba(13,15,23,0.2)">№ 02</span>
+    <div class="sbr" style="background:rgba(13,15,23,0.1)"></div>
+    <span class="sbt" style="color:rgba(13,15,23,0.2)">The Products</span>
+  </div>
+  <h2 class="fhl" style="margin-bottom:7px">The most <em>personal</em> gift<br>they will ever receive.</h2>
+  <p class="fsub">Char tarike — pehli baar India mein.</p>
+
+  <div class="pgrid">
+    <div class="pc"><div class="pcbg bbl">Bestseller</div><div class="pcv"><div class="pcvb bv"></div><div class="pcvg"></div><div class="pcvc"><div class="mwf" id="mwf1"></div></div><div class="pcvl">PHOTO · PAPA ON PHONE</div></div><div class="pci"><p class="pcnm">Voice Letter</p><p class="pcds">60 sec, in their voice<br><em>"Har saal Papa ki awaaz"</em></p><div class="pcbt"><span class="pcpr">₹299</span><div class="pcdl"><div class="pddd"></div>4 hrs</div></div></div></div>
+    <div class="pc"><div class="pcbg bgr">Trending</div><div class="pcv"><div class="pcvb bp"></div><div class="pcvg"></div><div class="pcvc"><div class="mfc"><div class="mfh"><div class="mfhr"></div><div class="mfe"><div class="mfey"><div class="mfei"></div></div><div class="mfey"><div class="mfei"></div></div></div><div class="mfsm"></div></div><div class="mfnk"></div></div><div class="mali"><div class="malid"></div><span class="malit">Living</span></div></div><div class="pcvl">PHOTO · DADI 1987</div></div><div class="pci"><p class="pcnm">Living Portrait</p><p class="pcds">Photo, alive<br><em>"Dadi ki photo boli..."</em></p><div class="pcbt"><span class="pcpr">₹499</span><div class="pcdl"><div class="pddd"></div>6 hrs</div></div></div></div>
+    <div class="pc"><div class="pcv"><div class="pcvb bs"></div><div class="pcvg"></div><div class="pcvc"><div class="mmu">♫</div></div><div class="pcvl">PHOTO · SANGEET STAGE</div></div><div class="pci"><p class="pcnm">Custom Song</p><p class="pcds">2 min · lyrics included<br><em>"Sangeet ka naya gaana"</em></p><div class="pcbt"><span class="pcpr">₹999</span><div class="pcdl"><div class="pddd"></div>24 hrs</div></div></div></div>
+    <div class="pc"><div class="pcbg bgo">New</div><div class="pcv"><div class="pcvb bl"></div><div class="pcvg"></div><div class="pcvc"><div class="mlt"><div class="mll" style="width:100%"></div><div class="mll" style="width:80%"></div><div class="mll" style="width:90%"></div><div class="mls">— Papa</div></div></div><div class="pcvl">PHOTO · OLD LETTER</div></div><div class="pci"><p class="pcnm">Handwritten Letter</p><p class="pcds">PDF · their handwriting<br><em>"Papa likhte the aise..."</em></p><div class="pcbt"><span class="pcpr">₹499</span><div class="pcdl"><div class="pddd"></div>Digital</div></div></div></div>
+  </div>
+  <div class="f3bt">
+    <p class="f3nt"><strong>All delivered on WhatsApp.</strong><br>No app. No account. No friction.</p>
+    <button class="cta-p">Film Your Memory — Starting ₹299 →</button>
+  </div>
+</div>
+
+<!-- ═══════════ FOLD 4 — Occasions ═══════════ -->
+<div class="f4">
+  <div class="f4bg"></div>
+  <div class="f4in">
+    <div class="sbrow" style="margin-bottom:24px">
+      <span class="sbn" style="color:rgba(13,15,23,0.2)">№ 03</span>
+      <div class="sbr" style="background:rgba(13,15,23,0.1)"></div>
+      <span class="sbt" style="color:rgba(13,15,23,0.2)">Film the Moment</span>
+    </div>
+    <h2 class="fhl" style="margin-bottom:7px">Pick the day.<br><em>We will handle the feeling.</em></h2>
+    <p class="fsub" style="margin-bottom:0">Every occasion is a moment worth filming.</p>
+
+    <div class="ocgr" id="ocgr">
+      <div class="ocrw">
+        <div class="oct active" onclick="selOcc(0)"><span class="ocem">🎂</span><span class="ocnm">Birthday</span><span class="occt">12 films</span></div>
+        <div class="oct" onclick="selOcc(1)"><span class="ocem">💛</span><span class="ocnm">Anniversary</span><span class="occt">10 films</span></div>
+        <div class="oct" onclick="selOcc(2)"><span class="ocem">🪔</span><span class="ocnm">Diwali</span><span class="occt">9 films</span></div>
+      </div>
+      <div class="ocrw">
+        <div class="oct" onclick="selOcc(3)"><span class="ocem">💍</span><span class="ocnm">Wedding</span><span class="occt">8 films</span></div>
+        <div class="oct" onclick="selOcc(4)"><span class="ocem">🧡</span><span class="ocnm">Rakhi</span><span class="occt">8 films</span></div>
+        <div class="oct" onclick="selOcc(5)"><span class="ocem">🎓</span><span class="ocnm">Graduation</span><span class="occt">7 films</span></div>
+      </div>
+      <div class="ocrw">
+        <div class="oct" onclick="selOcc(6)"><span class="ocem">💼</span><span class="ocnm">First Salary</span><span class="occt">5 films</span></div>
+        <div class="oct" onclick="selOcc(7)"><span class="ocem">🕯️</span><span class="ocnm">Memorial</span><span class="occt">6 films</span></div>
+      </div>
+    </div>
+
+    <div class="ocdet">
+      <div class="odgl"></div>
+      <div class="odtp"><div class="odlb"><span id="odEm">🎂</span><span id="odNm">Birthday</span></div><span class="odpf" id="odPf">Most filmed</span></div>
+      <p class="odhl" id="odHl">"Hear them say your name — in their own voice."</p>
+      <div class="odpr" id="odPr"></div>
+      <button class="odcta" id="odCta">Film for Birthday →</button>
+    </div>
+
+    <div class="f4bt">
+      <p class="f4btx"><strong>Not sure what to film?</strong><br>Tell us about them — we'll suggest the perfect memory.</p>
+      <button class="f4bct">Help me choose →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FOLD 5 — Three territories ═══════════ -->
+<div class="f5">
+  <div class="f5bg"></div>
+  <div class="sbrow" style="margin-bottom:28px;position:relative;z-index:2">
+    <span class="sbn" style="color:rgba(13,15,23,0.2)">№ 04</span>
+    <div class="sbr" style="background:rgba(13,15,23,0.1)"></div>
+    <span class="sbt" style="color:rgba(13,15,23,0.2)">Three Ways to Film</span>
+  </div>
+  <h2 class="fhl" style="margin-bottom:7px;position:relative;z-index:2">Film them. Film yourself.<br><em>Film forever.</em></h2>
+  <p class="fsub" style="margin-bottom:24px;position:relative;z-index:2">Every memory deserves to be on film.</p>
+
+  <div class="tc-them">
+    <div class="tc-them-ey"><div class="tc-them-eyl"></div>Film Them</div>
+    <h3 class="tc-them-hl">The most personal gift<br><em>they will ever receive.</em></h3>
+    <p class="tc-them-sub">Voice Letter · Living Portrait · Custom Song · Handwritten Letter. All on WhatsApp.</p>
+    <div class="tc-them-bt">
+      <button class="tc-them-cta">Gift a Memory →</button>
+      <span class="tc-them-pr">Starting ₹299</span>
+    </div>
+  </div>
+
+  <div class="tc-self">
+    <div class="tc-inner">
+      <div class="tc-gl-am"></div>
+      <div class="tc-lbl-am"><div class="tc-lline-am"></div>Film Yourself</div>
+      <h3 class="tc-hl">Your life deserves<br><em class="em-am">to be on film.</em></h3>
+      <p class="tc-desc">Your father's first car. The wedding morning before anyone had cried. Your own story — share a moment, we'll make it cinematic.</p>
+      <button class="tc-cta-am">Tell us your story →</button>
+      <p class="tc-pr-am">Memory Film · Starting ₹1,999</p>
+    </div>
+  </div>
+
+  <div class="tc-forever">
+    <div class="tc-inner">
+      <div class="tc-gl-bl"></div>
+      <div class="tc-lbl-bl"><div class="tc-lline-bl"></div>Film Forever</div>
+      <h3 class="tc-hl">Some voices should<br><em class="em-bl">never fade.</em></h3>
+      <p class="tc-desc">Store their voice. Store their face. SiyAI delivers a film automatically — every birthday, every Diwali. Forever.</p>
+      <button class="tc-cta-bl">Start the Vault — Free →</button>
+      <p class="tc-pr-bl">Legacy Vault · Free to start</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FOLD 6 — Legacy Vault ═══════════ -->
+<div class="f6">
+  <div class="f6tr"></div><div class="f6gl"></div><div class="f6gr"></div><div class="f6grn"></div>
+  <div class="f6in">
+    <div class="sbrow" style="margin-bottom:28px">
+      <span class="sbn" style="color:rgba(255,255,255,0.2)">№ 05</span>
+      <div class="sbr" style="background:rgba(255,255,255,0.08)"></div>
+      <span class="sbt" style="color:rgba(255,255,255,0.2)">Film Forever</span>
+    </div>
+    <div class="f6ey"><div class="f6eyl"></div>Before it's too late</div>
+    <h2 class="f6hl">Some voices should<br><em>never fade.</em></h2>
+    <p class="f6st"><strong>Dadi left us three years ago.</strong> Her voice still lives in our Vault. Every year, on Bhai's birthday, <span class="f6am">she still wishes him.</span><br><br>Her son recorded a 30-second voice note in 2019. He didn't know why. He knows now.</p>
+
+    <div class="vc">
+      <div class="vch"><div class="vctit"><span class="vclb">In your vault</span><div><span class="vcnm">Maa</span><span class="vcyr">· 1957</span></div></div><div class="vcba"><div class="vcbd"></div><span class="vcbt">Active</span></div></div>
+      <div class="vcq"><div class="vqi"><span class="vql">Voice Quality</span><span class="vqv">High</span><span class="vqs">2m 30s clip</span></div><div class="vqi"><span class="vql">Face Quality</span><span class="vqv">High</span><span class="vqs">4 photos</span></div></div>
+      <div class="vctl">
+        <p class="vctll">Auto-delivery schedule</p>
+        <div class="vctis">
+          <div class="vcti"><div class="vctid" style="background:#40E0B0"></div><span class="vctit"><strong>Rahul's Birthday</strong> — Maa ki awaaz mein</span><span class="vctiy">Jun 12</span></div>
+          <div class="vcti"><div class="vctid" style="background:#F6D58A"></div><span class="vctit"><strong>Diwali</strong> — Living Portrait delivered</span><span class="vctiy">Oct</span></div>
+          <div class="vcti"><div class="vctid" style="background:rgba(255,255,255,0.15)"></div><span class="vctit" style="color:rgba(255,255,255,0.25)"><strong>Anniversary</strong> — scheduled</span><span class="vctiy" style="color:rgba(255,255,255,0.15)">Nov</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="freebn"><div class="fbl"><p class="fbm"><em>Free</em> to start.</p><p class="fbs">One consent. Films forever. No card needed.</p></div><button class="fbb">Start Vault →</button></div>
+    <div class="f6ct">
+      <button class="cta-p">Start preserving — Free →</button>
+      <button class="cta-sd">Learn how the Vault works</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FOLD 7 — Trust ═══════════ -->
+<div class="f7">
+  <div class="f7tr"></div><div class="f7bg"></div>
+  <div class="f7in">
+    <div class="sbrow" style="margin-bottom:24px">
+      <span class="sbn" style="color:rgba(13,15,23,0.2)">№ 06</span>
+      <div class="sbr" style="background:rgba(13,15,23,0.1)"></div>
+      <span class="sbt" style="color:rgba(13,15,23,0.2)">Trust</span>
+    </div>
+    <h2 class="f7hl">Treated like <em>family,</em><br>not like a bank.</h2>
+    <p class="f7sub">You are handing us your father's voice.<br>We will not let you down.</p>
+
+    <div class="tl">
+      <div class="ti"><div class="titp"><span class="titl">Consent-first</span><div class="tick">✓</div></div><p class="tibd">Family gives consent once. We verify. Surprises happen forever. Nobody is cloned without knowing.</p></div>
+      <div class="ti"><div class="titp"><span class="titl">Face-verified</span><div class="tick">✓</div></div><p class="tibd">Every photo matches a signup selfie. No exceptions. No voice letter for a stranger's family.</p></div>
+      <div class="ti"><div class="titp"><span class="titl">Watermarked</span><div class="tick">✓</div></div><p class="tibd">Every clip carries an invisible watermark. Traceable. Misuse is actionable.</p></div>
+      <div class="ti"><div class="titp"><span class="titl">DPDPA compliant</span><div class="tick">✓</div></div><p class="tibd">Indian law. Indian servers. Your data never leaves India.</p></div>
+    </div>
+
+    <div class="privb">
+      <div class="pbgl"></div>
+      <p class="pbq"><em>"What you share with us, stays with you.</em> We just hold the key.<br><br>A team of <span class="pbam">real people</span> reviews every piece. No film arrives untouched by a human hand."</p>
+      <div class="pbis">
+        <div class="pbi"><div class="pbid"></div><span class="pbit">Want a voice, face, or photo taken down — same day. We say yes.</span></div>
+        <div class="pbi"><div class="pbid"></div><span class="pbit">No logos. No fine print. Write to us and a person will reply.</span></div>
+        <div class="pbi"><div class="pbid"></div><span class="pbit">Indian servers. Indian team. Your data never leaves India.</span></div>
+      </div>
+    </div>
+
+    <div class="f7hm">
+      <h3 class="f7hmhl">Every film is touched<br>by a <em>human hand.</em></h3>
+      <p class="f7hmsb">AI creates the draft. Our team reviews, refines, and approves every piece. Nothing automated. Nothing untouched.</p>
+    </div>
+
+    <div class="f7ct">
+      <button class="cta-p">Film Your Memory — Starting ₹299 →</button>
+      <p class="f7nt">Questions? Write to us. A real person will reply within 2 hours.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FOLD 8 — Close ═══════════ -->
+<div class="f8">
+  <div class="f8bg"></div>
+  <div class="f8in">
+    <div class="sbrow" style="margin-bottom:20px">
+      <span class="sbn" style="color:rgba(13,15,23,0.2)">№ 07</span>
+      <div class="sbr" style="background:rgba(13,15,23,0.1)"></div>
+      <span class="sbt" style="color:rgba(13,15,23,0.2)">From Our Families</span>
+    </div>
+    <h2 class="f8shl">10,000 families.<br><em>Same first reaction.</em></h2>
+    <p class="f8ssb">They cry. Then they share it with the rest of the family.</p>
+
+    <div class="str">
+      <div class="sti" style="padding-right:10px"><span class="stn">10,000+</span><span class="stl">Families</span></div>
+      <div class="sti" style="padding:14px 10px"><span class="stn">4.9/5</span><span class="stl">Rating</span></div>
+      <div class="sti" style="padding:14px 0 14px 10px"><span class="stn">50,000+</span><span class="stl">Films</span></div>
+    </div>
+
+    <div class="testis">
+      <div class="tcard"><div class="tctp"><div class="tcav">R</div><div class="tcin"><p class="tcnm">Rohit M.</p><p class="tcmt">Bengaluru · Voice Letter</p></div><div class="tcst"><span class="tcs">★</span><span class="tcs">★</span><span class="tcs">★</span><span class="tcs">★</span><span class="tcs">★</span></div></div><p class="tcq">"Papa passed two years ago. This was the first time my family heard his voice on Diwali. My mother <em>couldn't speak for ten minutes.</em>"</p><div class="tcpt"><div class="tptd" style="background:#40E0B0"></div><span class="tptn">AI Voice Letter · ₹299</span></div></div>
+      <div class="tcard"><div class="tctp"><div class="tcav">P</div><div class="tcin"><p class="tcnm">Priya S.</p><p class="tcmt">London · Living Portrait</p></div><div class="tcst"><span class="tcs">★</span><span class="tcs">★</span><span class="tcs">★</span><span class="tcs">★</span><span class="tcs">★</span></div></div><p class="tcq">"Sent this for my Nani's 80th from London. She said — <em>'Beta, mujhe nahi pata tha main itni sundar hoon.'</em>"</p><div class="tcpt"><div class="tptd" style="background:#F6D58A"></div><span class="tptn">Living Portrait · ₹499</span></div></div>
+      <div class="tcard"><div class="tctp"><div class="tcav">A</div><div class="tcin"><p class="tcnm">Ankit V.</p><p class="tcmt">Dubai · Handwritten Letter</p></div><div class="tcst"><span class="tcs">★</span><span class="tcs">★</span><span class="tcs">★</span><span class="tcs">★</span><span class="tcs">★</span></div></div><p class="tcq">"My father — who hasn't cried in twenty years — <em>cried.</em>"</p><div class="tcpt"><div class="tptd" style="background:#F6BE64"></div><span class="tptn">Handwritten Letter · ₹499</span></div></div>
+    </div>
+
+    <div class="finbl">
+      <div class="fingl"></div>
+      <div class="finey"><div class="fineyl"></div>Start filming</div>
+      <h2 class="finhl">There's a <em>movie</em><br>hidden in every life.</h2>
+      <p class="finhi">Har zindagi mein ek film chupi hai.</p>
+      <button class="fincp">Film Your Memory — Starting ₹299 →</button>
+      <button class="fincs"><div class="spd"><div class="tri-d"></div></div>Watch the full sample film</button>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:28px;">
+      <div style="font-size:10px;color:rgba(13,15,23,0.2);display:flex;align-items:center;gap:4px;"><div style="width:4px;height:4px;border-radius:50%;background:rgba(37,211,102,0.6);flex-shrink:0;"></div><span style="color:rgba(37,211,102,0.6);">WhatsApp delivery</span></div>
+      <div style="width:2px;height:2px;border-radius:50%;background:rgba(13,15,23,0.1);flex-shrink:0;"></div>
+      <div style="font-size:10px;color:rgba(13,15,23,0.2);">Starting ₹299</div>
+      <div style="width:2px;height:2px;border-radius:50%;background:rgba(13,15,23,0.1);flex-shrink:0;"></div>
+      <div style="font-size:10px;color:rgba(13,15,23,0.2);">No app needed</div>
+    </div>
+
+    <div class="ftr">
+      <div class="ftrl">Siy<span>AI</span></div>
+      <div class="ftrls"><span class="ftrlk">How it works</span><span class="ftrlk">Products</span><span class="ftrlk">Pricing</span><span class="ftrlk">Legacy Vault</span><span class="ftrlk">Privacy</span><span class="ftrlk">Contact</span></div>
+      <p class="ftrbt">© 2024 SiyAI · Made in India · A memory film studio for every family.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end phone -->
+
+<script>
+// FOLD 1 moments
+const f1d=[
+  {lb:'A SiyAI Film · Papa ki 60th Birthday',hl:'There\'s a <em>movie</em><br>hidden in every life.',hi:'Har zindagi mein ek film chupi hai.'},
+  {lb:'A SiyAI Gift · For someone you love',hl:'The most <em>personal gift</em><br>they will ever receive.',hi:'Unhe woh do jo koi aur nahi de sakta.'},
+  {lb:'A SiyAI Memory · Preserved forever',hl:'Some voices should<br><em>never fade.</em>',hi:'Unhe hamesha ke liye rakh lo.'}
+];
+let f1m=0;
+const dtEl=document.getElementById('f1dots');
+f1d.forEach((_,i)=>{const d=document.createElement('div');d.className='f1dot'+(i===0?' active':'');d.style.width=i===0?'36px':'14px';d.onclick=()=>setF1(i);dtEl.appendChild(d);});
+function setF1(i){f1m=i;const m=f1d[i];document.getElementById('f1lb').textContent=m.lb;document.getElementById('f1hl').innerHTML=m.hl;document.getElementById('f1hi').textContent=m.hi;dtEl.querySelectorAll('.f1dot').forEach((d,j)=>{d.className='f1dot'+(j<i?' done':j===i?' active':'');d.style.width=j===i?'36px':'14px';});}
+setInterval(()=>setF1((f1m+1)%3),4500);
+let f1s=0;const f1iv=setInterval(()=>{f1s++;const p=(f1s/120)*100;if(p>=100){clearInterval(f1iv);return;}document.getElementById('f1pf').style.width=p+'%';},1000);
+function toggleMute(){const i=document.getElementById('mI'),t=document.getElementById('mT');const m=i.textContent==='🔇';i.textContent=m?'🔊':'🔇';t.textContent=m?'Mute':'Unmute';}
+function openFS(){document.getElementById('fsov').classList.add('open');}
+function closeFS(){document.getElementById('fsov').classList.remove('open');}
+
+// FOLD 2 voice player
+const wvWF=document.getElementById('wvWF');
+[22,40,62,28,74,46,32,68,44,24,58,78,36,54,26,64,42,30,70,48,22,56,72,38,50,28,62,40,30,52,24,44,68,32,56,22,48,36,26,62].forEach((h,i)=>{const b=document.createElement('div');b.className='wvb';b.style.height=h+'%';b.style.animationDelay=(i*0.05)+'s';wvWF.appendChild(b);});
+let wvP=false,wvS=0,wvIv=null;const wvBs=wvWF.querySelectorAll('.wvb');
+function toggleVoice(){wvP=!wvP;const icon=document.getElementById('wvIcon');if(wvP){icon.className='';icon.innerHTML='<div class="wvpa"><div class="wvpb"></div><div class="wvpb"></div></div>';wvIv=setInterval(()=>{wvS++;if(wvS>=60){clearInterval(wvIv);wvP=false;icon.innerHTML='';icon.className='wvtr';return;}document.getElementById('wvTm').textContent=`0:${String(wvS).padStart(2,'0')}`;const lit=Math.floor((wvS/60)*wvBs.length);wvBs.forEach((b,i)=>{if(i<=lit)b.classList.add('lit');else b.classList.remove('lit');});},1000);}else{clearInterval(wvIv);icon.innerHTML='';icon.className='wvtr';}}
+
+// FOLD 3 mini waveform
+const mwf1=document.getElementById('mwf1');
+[22,40,58,28,70,44,30,65,42,24,55,72,34,50,26,60,40,28,66,44].forEach((h,i)=>{const b=document.createElement('div');b.className='mwb'+(i>=6&&i<=14?' a':'');b.style.height=h+'%';b.style.animationDelay=(i*0.06)+'s';mwf1.appendChild(b);});
+
+// FOLD 4 occasions
+const occs=[
+  {em:'🎂',nm:'Birthday',pf:'Most filmed',hl:'"Hear them say your name — in their own voice."',ps:[{d:'#40E0B0',n:'Voice Letter',p:'₹299'},{d:'#F6D58A',n:'Living Portrait',p:'₹499'},{d:'#A6E3FF',n:'Custom Song',p:'₹999'}]},
+  {em:'💛',nm:'Anniversary',pf:'Most emotional',hl:'"A song only the two of them will ever have."',ps:[{d:'#A6E3FF',n:'Custom Song',p:'₹999'},{d:'#40E0B0',n:'Voice Letter',p:'₹299'}]},
+  {em:'🪔',nm:'Diwali',pf:'Most shared',hl:'"Papa ki awaaz mein — happy Diwali, every year."',ps:[{d:'#40E0B0',n:'Voice Letter',p:'₹299'},{d:'#F6D58A',n:'Living Portrait',p:'₹499'}]},
+  {em:'💍',nm:'Wedding',pf:'Most cinematic',hl:'"Their love story — told as a film."',ps:[{d:'#A6E3FF',n:'Custom Song',p:'₹999'},{d:'#F6BE64',n:'Memory Film',p:'₹1,999'}]},
+  {em:'🧡',nm:'Rakhi',pf:'Most personal',hl:'"Words Bhai never said out loud."',ps:[{d:'#40E0B0',n:'Voice Letter',p:'₹299'},{d:'#F6BE64',n:'Handwritten Letter',p:'₹499'}]},
+  {em:'🎓',nm:'Graduation',pf:'Most aspirational',hl:'"The day they made the family proud — on film."',ps:[{d:'#F6BE64',n:'Memory Film',p:'₹1,999'},{d:'#A6E3FF',n:'Custom Song',p:'₹999'}]},
+  {em:'💼',nm:'First Salary',pf:'Most meaningful',hl:'"Thank them the way no gift ever has."',ps:[{d:'#40E0B0',n:'Voice Letter',p:'₹299'},{d:'#F6D58A',n:'Living Portrait',p:'₹499'}]},
+  {em:'🕯️',nm:'Memorial',pf:'Most treasured',hl:'"Their voice. Still here. Still wishing you well."',ps:[{d:'#40E0B0',n:'Voice Letter',p:'₹299'},{d:'#F6D58A',n:'Living Portrait',p:'₹499'}]},
+];
+function selOcc(i){document.querySelectorAll('.oct').forEach((t,j)=>t.classList.toggle('active',j===i));const o=occs[i];document.getElementById('odEm').textContent=o.em;document.getElementById('odNm').textContent=o.nm;document.getElementById('odPf').textContent=o.pf;document.getElementById('odHl').textContent=o.hl;document.getElementById('odCta').textContent=`Film for ${o.nm} →`;const pd=document.getElementById('odPr');pd.innerHTML='';o.ps.forEach(p=>{const el=document.createElement('div');el.className='odprd';el.innerHTML=`<div class="odpd" style="background:${p.d}"></div><span class="odpn">${p.n}</span><span class="odprc">${p.p}</span>`;pd.appendChild(el);});}
+selOcc(0);
+</script>
+
+<script>
+  // Iframe context — for clean canvas embed
+  if (window.self !== window.top) document.documentElement.classList.add('in-iframe');
+</script>
+
+
+<script>
+  // Hero "memory film" placeholder — rotates through labelled scenes
+  // so the visitor instantly reads "this is a memory turned into a film,"
+  // without faking imagery (per brand book).
+  (function(){
+    const canvas = document.getElementById('filmCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let filmTime = 0, lastT = 0;
+    const scenes = [
+      { dur: 3.6, label: 'A family. 1987.',                       type: 'title' },
+      { dur: 4.0, label: 'Papa at 30.',                            type: 'portrait' },
+      { dur: 3.6, label: 'The wedding morning.',                   type: 'scene' },
+      { dur: 4.0, label: 'His voice, still here.',                 type: 'voice' },
+      { dur: 3.8, label: "There's a movie hidden in every life.",  type: 'end' },
+    ];
+    const TOTAL = scenes.reduce((s,sc)=>s+sc.dur, 0);
+
+    function resize(){
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width  = canvas.offsetWidth  * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw(t){
+      const W = canvas.offsetWidth, H = canvas.offsetHeight;
+      let elapsed = t % TOTAL, scene = scenes[0], sceneStart = 0;
+      for (let i = 0; i < scenes.length; i++){
+        if (elapsed < sceneStart + scenes[i].dur){ scene = scenes[i]; break; }
+        sceneStart += scenes[i].dur;
+      }
+      const p = (elapsed - sceneStart) / scene.dur;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // base sepia-warm gradient
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, '#1c160a'); bg.addColorStop(0.5, '#1e1408'); bg.addColorStop(1, '#100a04');
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+      // vignette
+      const vig = ctx.createRadialGradient(W/2, H*0.38, H*0.05, W/2, H*0.38, H*0.72);
+      vig.addColorStop(0, 'rgba(196,144,96,0.22)'); vig.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
+
+      // grain
+      for (let i = 0; i < 110; i++){
+        ctx.fillStyle = 'rgba(255,255,255,' + (Math.random() * 0.014) + ')';
+        ctx.fillRect(Math.random()*W, Math.random()*H, 1, 1);
+      }
+
+      // fade
+      const alpha = p < 0.18 ? p / 0.18 : p > 0.82 ? (1-p) / 0.18 : 1;
+      ctx.globalAlpha = alpha;
+
+      if (scene.type === 'title'){
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 0.5;
+        for (let i = 0; i < 8; i++){ ctx.beginPath(); ctx.moveTo(0, H*i/7); ctx.lineTo(W, H*i/7); ctx.stroke(); }
+        ctx.fillStyle = 'rgba(255,253,247,0.78)';
+        ctx.font = '300 ' + (W*0.058) + 'px Fraunces,serif'; ctx.textAlign = 'center';
+        ctx.fillText(scene.label, W/2, H*0.5);
+        ctx.fillStyle = 'rgba(246,213,138,0.5)';
+        ctx.font = 'italic 300 ' + (W*0.034) + 'px Fraunces,serif';
+        ctx.fillText('A SiyAI Memory Film', W/2, H*0.5 + W*0.068);
+      } else if (scene.type === 'portrait'){
+        const cx = W/2, cy = H*0.4;
+        const glow = ctx.createRadialGradient(cx, cy-H*0.06, 0, cx, cy-H*0.06, H*0.26);
+        glow.addColorStop(0, 'rgba(196,144,96,0.32)'); glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+        // silhouette head
+        ctx.beginPath(); ctx.ellipse(cx, cy-H*0.09, W*0.09, W*0.11, 0, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(180,120,72,0.78)'; ctx.fill();
+        // shoulders
+        ctx.beginPath();
+        ctx.moveTo(cx-W*0.16, cy+H*0.07);
+        ctx.quadraticCurveTo(cx, cy+H*0.02, cx+W*0.16, cy+H*0.07);
+        ctx.quadraticCurveTo(cx+W*0.15, cy+H*0.16, cx-W*0.15, cy+H*0.16);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(40,28,18,0.86)'; ctx.fill();
+        // label
+        ctx.fillStyle = 'rgba(255,253,247,0.68)';
+        ctx.font = 'italic 300 ' + (W*0.062) + 'px Fraunces,serif'; ctx.textAlign = 'center';
+        ctx.fillText(scene.label, cx, cy + H*0.22);
+      } else if (scene.type === 'scene'){
+        // bokeh dots
+        for (let i = 0; i < 22; i++){
+          const bx = W*(0.08 + 0.84*((i*137.5)%1));
+          const by = H*(0.1  + 0.8 *((i*97.3)%1));
+          const br = W*(0.03 + 0.05*((i*53.1)%1));
+          const bg2 = ctx.createRadialGradient(bx, by, 0, bx, by, br);
+          bg2.addColorStop(0, 'rgba(246,213,138,0.2)'); bg2.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = bg2; ctx.fillRect(0, 0, W, H);
+        }
+        ctx.fillStyle = 'rgba(255,253,247,0.62)';
+        ctx.font = 'italic 300 ' + (W*0.05) + 'px Fraunces,serif'; ctx.textAlign = 'center';
+        ctx.fillText(scene.label, W/2, H*0.5);
+      } else if (scene.type === 'voice'){
+        const bars = 44, bw = W*0.013, gap = W*0.009;
+        const totalW = bars*(bw+gap);
+        const startX = (W-totalW)/2, cy2 = H*0.5;
+        for (let i = 0; i < bars; i++){
+          const amp = 0.3 + 0.5 * Math.abs(Math.sin(i*0.42 + filmTime*2.8));
+          const bh = H*0.08 * amp;
+          const lit = i < bars * (p * 0.95);
+          ctx.fillStyle = lit ? 'rgba(64,224,176,0.82)' : 'rgba(255,255,255,0.16)';
+          ctx.fillRect(startX + i*(bw+gap), cy2 - bh/2, bw, bh);
+        }
+        ctx.fillStyle = 'rgba(255,253,247,0.62)';
+        ctx.font = 'italic 300 ' + (W*0.046) + 'px Fraunces,serif'; ctx.textAlign = 'center';
+        ctx.fillText(scene.label, W/2, H*0.33);
+        ctx.fillStyle = 'rgba(64,224,176,0.55)';
+        ctx.font = (W*0.03) + 'px Geist,sans-serif';
+        ctx.fillText('0:' + String(Math.floor(p*52)).padStart(2,'0'), W/2, H*0.66);
+      } else if (scene.type === 'end'){
+        const eg = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W*0.55);
+        eg.addColorStop(0, 'rgba(64,224,176,0.12)'); eg.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = eg; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = 'rgba(255,253,247,0.8)';
+        ctx.font = 'italic 300 ' + (W*0.046) + 'px Fraunces,serif'; ctx.textAlign = 'center';
+        ctx.fillText("There's a", W/2, H*0.41);
+        ctx.fillStyle = 'rgba(64,224,176,0.95)';
+        ctx.fillText('movie', W/2, H*0.41 + W*0.062);
+        ctx.fillStyle = 'rgba(255,253,247,0.8)';
+        ctx.fillText('hidden in every life.', W/2, H*0.41 + W*0.124);
+      }
+
+      ctx.globalAlpha = 1;
+    }
+
+    function loop(ts){
+      if (lastT) filmTime += (ts - lastT) / 1000;
+      lastT = ts;
+      resize(); draw(filmTime);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+</script>
+
+</body>
+</html>
