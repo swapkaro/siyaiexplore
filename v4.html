@@ -662,6 +662,45 @@ body {
   .f1img, .f1-video, .f1-img { height: 50dvh !important; }
 }
 
+
+
+/* ═══════════ FOLD 1 — clean top bar ═══════════
+   Kill the dots/progress affordance and the autoplay mute button.
+   They were studio conventions that don't fit a public homepage.
+   Keep only the SiyAI wordmark, properly placed under the device notch. */
+
+.f1dots, .f1-dots { display: none !important; }
+.f1mu, .f1-mute, #f1Dots { display: none !important; }
+
+.f1nav, .f1-nav {
+  position: absolute !important;
+  top: calc(env(safe-area-inset-top, 0px) + 14px) !important;
+  left: 0 !important; right: 0 !important;
+  padding: 0 22px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  z-index: 30 !important;
+  background: transparent !important;
+}
+
+/* Wordmark sits clean on the film — soft drop shadow for legibility */
+.f1logo, .f1-logo {
+  font-family: 'Fraunces', serif !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em !important;
+  color: #FFFDF7 !important;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.4) !important;
+}
+.f1logo span, .f1-logo span { color: #40E0B0 !important; }
+
+/* Progress bar at very bottom of fold remains useful — push it just above safe area */
+.f1pr, .f1-progress {
+  bottom: 0 !important;
+  z-index: 25 !important;
+}
+
 </style>
 </head>
 <body>
