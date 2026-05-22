@@ -1,24 +1,25 @@
 # SiyAI · Homepage Variations
 
-Eight pre-login homepage directions for SiyAI, mobile-first.
+Five mobile-first pre-login homepage directions for SiyAI.
 
-All files render edge-to-edge — no fake phone bezel. Open `index.html` to navigate, or open any `vN.html` directly on a phone.
+All files render edge-to-edge — no fake phone bezel. Open `index.html` to navigate, or open any `vN-*.html` directly on a phone.
 
 ## Variations
 
 | # | File | Direction |
 |---|---|---|
-| 1 | `v1.html` | Emotional · Real Moment proof first |
-| 2 | `v2.html` | Functional · Mechanic (how-it-works) first |
-| 3 | `v3.html` | Hybrid · Mechanic + Proof |
-| 4 | `v4.html` | Proof-first hybrid · zero-awareness explainer + social proof |
-| 5 | `v5.html` | V4 + animated WhatsApp notification hero |
-| 6 | `v6-synthesis.html` | **Synthesis** — V4 base + specific CTA + canvas film loop hero |
-| 7 | `v7-storyteller.html` | Editorial · 10-fold long-scroll with brand orb wordmark + multi-currency |
-| 8 | `v8-inter.html` | Synthesis in Inter font + dark cinematic Fold 1 |
+| 1 | `v1-storyteller.html` | Storyteller — original (small contained hero card) |
+| 2 | `v2-fullbleed.html` | Storyteller — full-bleed video hero |
+| 3 | `v3-theatre.html` | Storyteller — theatre hero (tall light card) |
+| 4 | `v4-synthesis.html` | **Synthesis** in Fraunces — the picked direction |
+| 5 | `v5-inter-dark.html` | Synthesis in Inter with dark cinematic Fold 1 |
 
-## Deploy
+## Deploy to GitHub Pages
 
-- **GitHub Pages**: push this folder to a repo, enable Pages from main branch / root.
-- **Netlify Drop**: drag the folder onto [app.netlify.com/drop](https://app.netlify.com/drop) — instant URL, no signup needed.
-- **Local**: open `index.html` in any browser.
+1. Push these files to repo root (or to `/docs`)
+2. Settings → Pages → Source: `main` branch, `/ (root)` (or `/docs`)
+3. Live URL: `https://<user>.github.io/<repo>/`
+
+## Or use Netlify Drop
+
+Drag this folder onto [app.netlify.com/drop](https://app.netlify.com/drop) for an instant URL — no signup.
