@@ -229,8 +229,11 @@
     const store = loadStore();
     if (store[key]) return store[key];
     const item = PHOTOS.find(p => p.key === key);
-    if (!item) return null;
-    // Prefer /photos/{key}.jpg if the user has added files; fall back to default URL.
+    return item ? item.default : null;
+  }
+  // Returns the local repo path for a baked-in photo. PhotoSlot tries this
+  // first via an <img> onerror fallback to the URL returned by getPhoto().
+  function getRepoPath(key) {
     return `photos/${key}.jpg`;
   }
 
