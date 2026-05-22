@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SiyAI · Photo admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=2">
+<style>
+  body { background: var(--ivory); color: var(--ink); font-family: var(--font-ui); margin: 0; }
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in oklab, var(--ivory) 92%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--ivory-line);
+    padding: 16px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 8px; }
+  .brand .dot {
+    width: 9px; height: 9px; border-radius: 99px;
+    background: radial-gradient(circle at 30% 30%, #C6F1D0, var(--mint));
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--mint), transparent 70%);
+  }
+  .brand .name {
+    font-family: var(--font-display); font-size: 20px;
+    letter-spacing: -0.02em; font-weight: 500;
+  }
+  .brand .name i { font-style: italic; color: var(--emerald-deep); }
+  .topbar-actions {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .topbar-actions a {
+    color: var(--ink-3); text-decoration: none;
+    padding: 8px 14px; border-radius: 100px;
+    border: 1px solid var(--ivory-line);
+    transition: background .15s ease;
+  }
+  .topbar-actions a:hover { background: var(--ivory-2); color: var(--ink); }
+  .topbar-actions .btn-danger {
+    background: transparent; color: var(--rose); border-color: color-mix(in oklab, var(--rose) 40%, var(--ivory-line));
+  }
+  .topbar-actions .btn-danger:hover {
+    background: color-mix(in oklab, var(--rose) 12%, var(--ivory)); color: var(--rose);
+  }
+  .topbar-actions .btn-primary {
+    background: var(--ink); color: var(--ivory); border-color: var(--ink);
+  }
+  .topbar-actions .btn-primary:hover { background: var(--ink-2); color: var(--ivory); }
+
+  main { max-width: 1240px; margin: 0 auto; padding: 36px 28px 80px; }
+
+  .hero { margin-bottom: 36px; max-width: 760px; }
+  .hero .eyebrow {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.18em; color: var(--emerald-deep);
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .hero h1 {
+    margin: 0; font-family: var(--font-display); font-weight: 400;
+    font-size: 44px; letter-spacing: -0.025em; line-height: 1;
+  }
+  .hero h1 i { color: var(--emerald-deep); }
+  .hero p {
+    margin: 14px 0 0; font-size: 16px; line-height: 1.5;
+    color: var(--ink-3); max-width: 560px;
+  }
+
+  .summary {
+    margin: 24px 0 32px;
+    background: var(--ivory-2);
+    border: 1px solid var(--ivory-line);
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex; flex-wrap: wrap; gap: 20px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--ink-3); letter-spacing: 0.06em;
+  }
+  .summary .stat .num {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 22px; letter-spacing: -0.01em;
+    color: var(--ink); margin-right: 6px;
+  }
+
+  .group { margin-top: 40px; }
+  .group h2 {
+    margin: 0 0 18px; font-family: var(--font-display);
+    font-weight: 400; font-size: 22px; letter-spacing: -0.02em;
+    border-bottom: 1px solid var(--ink); padding-bottom: 10px;
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .group h2 .count {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-3); letter-spacing: 0.12em; text-transform: uppercase;
+    font-style: normal;
+  }
+  .grid {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  .card {
+    background: var(--ivory);
+    border: 1px solid var(--ivory-line);
+    border-radius: 16px; overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .card:hover { border-color: var(--ink-mute); box-shadow: 0 14px 30px -16px rgba(14,18,23,0.1); }
+  .card.dragover {
+    border-color: var(--emerald); background: color-mix(in oklab, var(--mint), var(--ivory) 80%);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--mint), transparent 60%);
+  }
+
+  .preview {
+    position: relative;
+    background: var(--ivory-2);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .preview .stripes {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(135deg, rgba(14,18,23,0.04) 0 1px, transparent 1px 11px);
+  }
+  .preview img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .preview .state {
+    position: absolute; top: 10px; left: 10px;
+    background: var(--ivory);
+    border: 1px solid var(--ivory-line);
+    border-radius: 100px;
+    padding: 4px 10px;
+    font-family: var(--font-mono); font-size: 9.5px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .preview .state.uploaded {
+    background: var(--ink); color: var(--ivory); border-color: var(--ink);
+  }
+  .preview .drop-cue {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-2);
+    background: color-mix(in oklab, var(--mint), transparent 30%);
+    opacity: 0; transition: opacity .12s ease;
+    pointer-events: none;
+  }
+  .card.dragover .drop-cue { opacity: 1; }
+
+  .body {
+    padding: 14px 14px 12px;
+    display: flex; flex-direction: column; gap: 8px;
+    flex: 1;
+  }
+  .label {
+    font-family: var(--font-display); font-size: 17px;
+    letter-spacing: -0.015em; line-height: 1.2;
+  }
+  .brief {
+    font-size: 12px; line-height: 1.45; color: var(--ink-3);
+    flex: 1;
+  }
+  .meta {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--ink-3); letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-top: 1px solid var(--ivory-line);
+    padding-top: 10px;
+    margin-top: 4px;
+  }
+  .key { color: var(--ink-2); }
+  .actions {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .file-btn {
+    background: var(--emerald); color: var(--ink);
+    border: 0; padding: 7px 12px; border-radius: 100px;
+    font-family: var(--font-ui); font-size: 11.5px; font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+  }
+  .file-btn:hover { transform: translateY(-1px); }
+  .clear-btn {
+    background: transparent; color: var(--ink-3);
+    border: 0; cursor: pointer;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.08em; padding: 4px 6px;
+  }
+  .clear-btn:hover { color: var(--rose); }
+  .clear-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink); color: var(--ivory);
+    padding: 12px 20px; border-radius: 100px;
+    font-family: var(--font-ui); font-size: 13px;
+    box-shadow: 0 20px 40px -16px rgba(14,18,23,0.4);
+    z-index: 100;
+    opacity: 0; pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <span class="name">Siy<i>AI</i></span>
+      <span style="color: var(--ink-3); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; margin-left: 14px;">Photo admin</span>
+    </div>
+    <div class="topbar-actions">
+      <a href="index.html">View homepage →</a>
+      <a href="#" id="download-zip">Download all as ZIP</a>
+      <a href="#" id="reset-all" class="btn-danger">Reset all</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="hero">
+      <div class="eyebrow">Internal · drag &amp; drop · saved locally</div>
+      <h1>Drop in real photography. <i>Anywhere on the page.</i></h1>
+      <p>
+        Drag a JPG or PNG onto any card to replace the placeholder. Uploads save to this browser's
+        localStorage and reflect on the homepage instantly. Slots are grouped by page section
+        (top to bottom) — same photo can appear in multiple places, so swapping once updates everywhere.
+      </p>
+    </div>
+
+    <div class="summary" id="summary"></div>
+    <div id="groups"></div>
+  </main>
+
+  <div class="toast" id="toast">Saved.</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="photos.js"></script>
+  <script>
+    const groupsEl = document.getElementById("groups");
+    const summaryEl = document.getElementById("summary");
+    const toastEl = document.getElementById("toast");
+
+    let toastTimer;
+    function toast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove("show"), 1600);
+    }
+
+    function render() {
+      const grouped = window.SiyAIPhotos.getPhotosByGroup();
+      groupsEl.innerHTML = "";
+      let totalSlots = 0, uploadedSlots = 0;
+
+      for (const [groupName, items] of Object.entries(grouped)) {
+        const groupUploaded = items.filter(p => window.SiyAIPhotos.hasUploaded(p.key)).length;
+        totalSlots += items.length;
+        uploadedSlots += groupUploaded;
+
+        const section = document.createElement("section");
+        section.className = "group";
+        section.innerHTML = `
+          <h2>
+            <span>${groupName}</span>
+            <span class="count">${groupUploaded} / ${items.length} uploaded</span>
+          </h2>
+          <div class="grid"></div>
+        `;
+        const grid = section.querySelector(".grid");
+
+        for (const item of items) {
+          const card = makeCard(item);
+          grid.appendChild(card);
+        }
+        groupsEl.appendChild(section);
+      }
+
+      summaryEl.innerHTML = `
+        <div class="stat"><span class="num">${totalSlots}</span> total slots</div>
+        <div class="stat"><span class="num">${uploadedSlots}</span> uploaded</div>
+        <div class="stat"><span class="num">${totalSlots - uploadedSlots}</span> using stock</div>
+        <div style="margin-left: auto; align-self: center;">
+          Saved in this browser only · clearing browser data resets uploads
+        </div>
+      `;
+    }
+
+    function makeCard(item) {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const isUploaded = window.SiyAIPhotos.hasUploaded(item.key);
+      const src = window.SiyAIPhotos.getPhoto(item.key);
+
+      card.innerHTML = `
+        <div class="preview">
+          <div class="stripes"></div>
+          ${src ? `<img src="${src}" alt="" onerror="this.style.display='none'" />` : ""}
+          <div class="state ${isUploaded ? "uploaded" : ""}">${isUploaded ? "Uploaded" : "Stock"}</div>
+          <div class="drop-cue">Drop to replace</div>
+        </div>
+        <div class="body">
+          <div class="label">${item.label}</div>
+          <div class="brief">${item.brief}</div>
+          <div class="meta">
+            <span class="key">${item.key}</span>
+            <span>${item.w}×${item.h}</span>
+          </div>
+          <div class="actions">
+            <button class="file-btn">Upload</button>
+            <button class="clear-btn" ${isUploaded ? "" : "disabled"}>Reset</button>
+            <input type="file" accept="image/*" style="display:none" />
+          </div>
+        </div>
+      `;
+
+      const input = card.querySelector("input[type=file]");
+      const uploadBtn = card.querySelector(".file-btn");
+      const clearBtn = card.querySelector(".clear-btn");
+
+      uploadBtn.addEventListener("click", () => input.click());
+      input.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) handleFile(file, item.key);
+      });
+      clearBtn.addEventListener("click", () => {
+        window.SiyAIPhotos.setPhoto(item.key, null);
+        toast(`Reset — ${item.label.slice(0, 40)}`);
+        render();
+      });
+
+      // drag-and-drop
+      card.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        card.classList.add("dragover");
+      });
+      card.addEventListener("dragleave", () => card.classList.remove("dragover"));
+      card.addEventListener("drop", (e) => {
+        e.preventDefault();
+        card.classList.remove("dragover");
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith("image/")) {
+          handleFile(file, item.key);
+        }
+      });
+
+      return card;
+    }
+
+    function handleFile(file, key) {
+      if (file.size > 20 * 1024 * 1024) {
+        toast("File too large — keep under 20MB.");
+        return;
+      }
+      toast(`Optimising ${file.name}…`);
+      resizeImage(file, 1600, 0.85).then(dataURL => {
+        try {
+          window.SiyAIPhotos.setPhoto(key, dataURL);
+          const sizeKB = Math.round(dataURL.length * 0.75 / 1024);
+          toast(`Saved · ${sizeKB}KB`);
+          render();
+        } catch (e) {
+          if (e.message === "STORAGE_FULL") {
+            toast("Browser storage full — reset old photos to free space.");
+          } else {
+            toast("Couldn't save — try again.");
+          }
+        }
+      }).catch(() => toast("Couldn't read that image. Try a JPG or PNG."));
+    }
+
+    // Resize + recompress as JPEG so each photo lands at ~150–400KB
+    // (raw photos can be 5–10MB which busts localStorage quota fast)
+    function resizeImage(file, maxDim, quality) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const scale = Math.min(1, maxDim / Math.max(img.naturalWidth, img.naturalHeight));
+            const w = Math.round(img.naturalWidth * scale);
+            const h = Math.round(img.naturalHeight * scale);
+            const canvas = document.createElement("canvas");
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, w, h);
+            const out = canvas.toDataURL("image/jpeg", quality);
+            URL.revokeObjectURL(url);
+            resolve(out);
+          } catch (err) {
+            URL.revokeObjectURL(url);
+            reject(err);
+          }
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("decode failed")); };
+        img.src = url;
+      });
+    }
+
+    document.getElementById("reset-all").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (confirm("Reset all uploaded photos? Stock placeholders will return everywhere.")) {
+        window.SiyAIPhotos.clearAllPhotos();
+        toast("Reset all uploads.");
+        render();
+      }
+    });
+
+    document.getElementById("download-zip").addEventListener("click", async (e) => {
+      e.preventDefault();
+      const store = JSON.parse(localStorage.getItem("siyai_photos_v1") || "{}");
+      const keys = Object.keys(store);
+      if (!keys.length) { toast("No uploaded photos yet."); return; }
+      if (typeof JSZip === "undefined") { toast("ZIP library failed to load."); return; }
+      toast(`Packaging ${keys.length} photo${keys.length===1?"":"s"}…`);
+      const zip = new JSZip();
+      const folder = zip.folder("photos");
+      for (const key of keys) {
+        const dataURL = store[key];
+        const m = /^data:(image\/[^;]+);base64,(.+)$/.exec(dataURL);
+        if (!m) continue;
+        folder.file(`${key}.jpg`, m[2], { base64: true });
+      }
+      const blob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "siyai-photos.zip"; document.body.appendChild(a); a.click();
+      document.body.removeChild(a); URL.revokeObjectURL(url);
+      toast(`Downloaded ${keys.length} photos as ZIP.`);
+    });
+
+    window.addEventListener("siyai-photo-change", render);
+    render();
+  </script>
+</body>
+</html>
