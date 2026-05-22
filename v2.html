@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SiyAI — Start Your Film</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing:border-box; margin:0; padding:0; -webkit-font-smoothing:antialiased; }
+
+:root {
+  --ivory:#FFFDF7; --ink:#0D0F17; --emerald:#40E080;
+  --gold:#F6D58A; --gold-d:#b89a4a; --amber:#C9922A;
+  --i90:rgba(13,15,23,0.9); --i60:rgba(13,15,23,0.6);
+  --i35:rgba(13,15,23,0.35); --i20:rgba(13,15,23,0.2);
+  --i10:rgba(13,15,23,0.1); --i06:rgba(13,15,23,0.06);
+  --w90:rgba(255,255,255,0.9); --w60:rgba(255,255,255,0.6);
+  --w35:rgba(255,255,255,0.35); --w20:rgba(255,255,255,0.2);
+  --w10:rgba(255,255,255,0.1); --w06:rgba(255,255,255,0.06);
+  --e20:rgba(64,224,128,0.2); --e10:rgba(64,224,128,0.1);
+  --wa:rgba(37,211,102,0.6);
+}
+
+body {
+  background:#111008;
+  display:flex; justify-content:center; align-items:flex-start;
+  min-height:100vh; padding:40px 20px;
+  font-family:'Geist',sans-serif;
+}
+
+.phone {
+  width:375px; border-radius:52px; overflow:hidden;
+  border:10px solid #1c1c1e; background:var(--ivory);
+  box-shadow:0 0 0 1px rgba(255,255,255,0.04), 0 60px 140px rgba(0,0,0,0.95);
+  position:relative;
+}
+
+.di {
+  position:absolute; top:10px; left:50%; transform:translateX(-50%);
+  width:120px; height:36px; background:#000; border-radius:22px; z-index:1000;
+  pointer-events:none;
+}
+
+/* ─── REUSABLE ─── */
+.sect-bar {
+  display:flex; align-items:center; gap:12px;
+}
+.sb-n { font-size:9px; letter-spacing:2px; white-space:nowrap; }
+.sb-r { flex:1; height:0.5px; }
+.sb-t { font-size:9px; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+.on-ivory .sb-n,.on-ivory .sb-t { color:var(--i20); }
+.on-ivory .sb-r { background:var(--i10); }
+.on-dark .sb-n,.on-dark .sb-t { color:var(--w20); }
+.on-dark .sb-r { background:rgba(255,255,255,0.08); }
+
+.fold-hl { font-family:'Fraunces',serif; font-size:28px; font-weight:400; line-height:1.1; letter-spacing:-0.7px; }
+.fold-hl em { font-style:italic; color:var(--emerald); }
+.fold-sub { font-family:'Fraunces',serif; font-style:italic; font-size:12px; font-weight:300; }
+.fold-sub.ivory { color:var(--gold-d); }
+.fold-sub.dark { color:rgba(212,165,80,0.55); }
+
+.cta-p {
+  width:100%; font-family:'Geist',sans-serif; font-size:14px; font-weight:500;
+  color:#080502; background:var(--emerald); border:none; padding:15px;
+  border-radius:100px; cursor:pointer; letter-spacing:0.15px;
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity 0.18s, transform 0.1s;
+}
+.cta-p:hover { opacity:0.9; }
+.cta-p:active { transform:scale(0.98); }
+
+.cta-s {
+  width:100%; font-family:'Geist',sans-serif; font-size:12px; font-weight:400;
+  padding:13px; border-radius:100px; cursor:pointer; letter-spacing:0.1px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:background 0.18s;
+}
+.cta-s.on-ivory { color:var(--i35); background:var(--i06); border:0.5px solid var(--i10); }
+.cta-s.on-ivory:hover { background:rgba(13,15,23,0.1); }
+.cta-s.on-dark { color:var(--w35); background:var(--w06); border:0.5px solid rgba(255,255,255,0.1); }
+.cta-s.on-dark:hover { background:rgba(255,255,255,0.08); }
+
+.s-play-w { width:17px; height:17px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.s-play-w.ivory { background:var(--i06); border:0.5px solid var(--i10); }
+.s-play-w.dark { background:var(--w10); border:0.5px solid var(--w20); }
+.s-tri-ivory { width:0; height:0; border-top:3px solid transparent; border-bottom:3px solid transparent; border-left:5px solid var(--i35); margin-left:1px; }
+.s-tri-dark { width:0; height:0; border-top:3px solid transparent; border-bottom:3px solid transparent; border-left:5px solid var(--w35); margin-left:1px; }
+
+.meta-row { display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; }
+.mi { font-size:10px; display:flex; align-items:center; gap:4px; }
+.mi.ivory { color:var(--i20); }
+.mi.dark { color:rgba(255,255,255,0.2); }
+.m-sep { width:2px; height:2px; border-radius:50%; flex-shrink:0; }
+.m-sep.ivory { background:var(--i10); }
+.m-sep.dark { background:rgba(255,255,255,0.1); }
+.wa-g { width:4px; height:4px; border-radius:50%; background:var(--wa); flex-shrink:0; }
+.wa-t { color:var(--wa); }
+
+/* ─── FOLD 1 ─── */
+.f1 { width:100%; height:812px; position:relative; overflow:hidden; background:#1a0e06; }
+
+.f1-img { position:absolute; inset:0; z-index:0; }
+.f1-img img { width:100%; height:100%; object-fit:cover; object-position:center 8%; display:block; }
+
+.f1-ov-top { position:absolute; top:0; left:0; right:0; height:230px; background:linear-gradient(180deg,rgba(20,10,4,0.75) 0%,transparent 100%); z-index:1; pointer-events:none; }
+.f1-ov-bot { position:absolute; bottom:0; left:0; right:0; height:66%; background:linear-gradient(0deg,rgba(255,253,247,0.97) 0%,rgba(255,253,247,0.9) 20%,rgba(255,253,247,0.55) 50%,transparent 100%); z-index:1; pointer-events:none; }
+.f1-ov-sides { position:absolute; inset:0; background:linear-gradient(90deg,rgba(20,10,4,0.18) 0%,transparent 12%),linear-gradient(270deg,rgba(20,10,4,0.14) 0%,transparent 12%); z-index:1; pointer-events:none; }
+
+.f1-sb { position:absolute; top:0; left:0; right:0; height:52px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 28px 7px; z-index:10; }
+.f1-time { font-size:13px; font-weight:500; color:var(--w90); }
+.f1-icons { display:flex; align-items:center; gap:6px; }
+.f1-signal { display:flex; align-items:flex-end; gap:2px; height:11px; }
+.f1-sbar { width:3px; border-radius:1px; background:var(--w90); }
+
+.f1-nav { position:absolute; top:56px; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:0 24px; z-index:10; }
+.f1-logo { font-family:'Fraunces',serif; font-size:20px; font-weight:400; color:var(--w90); letter-spacing:-0.3px; }
+.f1-logo span { color:var(--emerald); }
+.f1-mute { display:flex; align-items:center; gap:5px; background:rgba(0,0,0,0.25); border:0.5px solid rgba(255,255,255,0.15); border-radius:100px; padding:5px 10px; cursor:pointer; }
+.f1-mi { font-size:10px; }
+.f1-mt { font-size:9px; color:var(--w35); letter-spacing:0.3px; }
+
+.f1-dots { position:absolute; top:56px; left:50%; transform:translateX(-50%); display:flex; gap:5px; z-index:10; }
+.f1-dot { height:2px; border-radius:1px; background:rgba(255,255,255,0.22); transition:all 0.4s; cursor:pointer; }
+.f1-dot.active { background:var(--w90); }
+.f1-dot.done { background:var(--w35); }
+
+.f1-bot { position:absolute; bottom:0; left:0; right:0; padding:0 24px 26px; z-index:10; }
+.f1-lbl-row { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+.f1-lbl-line { width:18px; height:0.5px; background:var(--i20); }
+.f1-lbl-text { font-size:9px; color:var(--i35); letter-spacing:2.5px; text-transform:uppercase; }
+.f1-hl { font-family:'Fraunces',serif; font-size:31px; font-weight:400; line-height:1.07; color:var(--ink); letter-spacing:-0.8px; margin-bottom:7px; }
+.f1-hl em { font-style:italic; color:var(--emerald); }
+.f1-hi { font-family:'Fraunces',serif; font-style:italic; font-size:12px; font-weight:300; color:var(--gold-d); margin-bottom:20px; }
+.f1-ctas { display:flex; flex-direction:column; gap:9px; margin-bottom:14px; }
+.f1-prog { position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--i06); z-index:20; }
+.f1-pf { height:100%; background:var(--emerald); width:0%; transition:width 0.8s linear; border-radius:0 1px 1px 0; opacity:0.7; }
+
+.fs-ov { position:absolute; inset:0; z-index:100; background:#100a04; display:none; flex-direction:column; }
+.fs-ov.open { display:flex; }
+.fs-bg { position:absolute; inset:0; }
+.fs-bg img { width:100%; height:100%; object-fit:cover; object-position:center 8%; opacity:0.45; }
+.fs-dark { position:absolute; inset:0; background:rgba(20,10,4,0.6); }
+.fs-x { position:absolute; top:56px; right:22px; width:38px; height:38px; border-radius:50%; background:var(--w10); border:0.5px solid var(--w20); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:5; color:var(--w60); font-size:15px; font-family:'Geist',sans-serif; }
+.fs-body { position:relative; z-index:4; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; text-align:center; padding:0 32px; }
+.fs-ey { font-size:9px; color:var(--w20); letter-spacing:3px; text-transform:uppercase; }
+.fs-hl { font-family:'Fraunces',serif; font-size:30px; font-weight:400; font-style:italic; color:var(--w90); letter-spacing:-0.6px; line-height:1.1; }
+.fs-hl em { color:var(--emerald); }
+.fs-sub { font-family:'Fraunces',serif; font-style:italic; font-size:13px; color:rgba(212,165,80,0.55); }
+.fs-play { width:72px; height:72px; border-radius:50%; background:var(--w10); border:1.5px solid var(--w20); display:flex; align-items:center; justify-content:center; cursor:pointer; margin-top:8px; }
+.fs-tri { width:0; height:0; border-top:13px solid transparent; border-bottom:13px solid transparent; border-left:21px solid rgba(255,255,255,0.82); margin-left:5px; }
+.fs-mt { font-size:10px; color:var(--w20); }
+.fs-ft { position:relative; z-index:4; padding:0 24px 32px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+.fs-cta { width:100%; font-family:'Geist',sans-serif; font-size:14px; font-weight:500; color:#080502; background:var(--emerald); border:none; padding:15px; border-radius:100px; cursor:pointer; }
+.fs-bk { font-size:11px; color:var(--w20); background:none; border:none; cursor:pointer; font-family:'Geist',sans-serif; }
+
+/* ─── FOLD 2 ─── */
+.f2 { background:var(--ivory); }
+.f2-inner { padding:48px 24px 48px; }
+
+/* How it works mechanic */
+.mechanic { margin-bottom:32px; }
+.mech-hl { font-family:'Fraunces',serif; font-size:24px; font-weight:400; line-height:1.15; color:var(--ink); letter-spacing:-0.6px; margin-bottom:6px; }
+.mech-hl em { font-style:italic; color:var(--emerald); }
+.mech-sub { font-family:'Fraunces',serif; font-style:italic; font-size:13px; font-weight:300; color:var(--i35); margin-bottom:24px; line-height:1.5; }
+
+.steps { display:flex; flex-direction:column; gap:0; margin-bottom:20px; }
+.step { display:flex; gap:14px; padding:16px 0; border-top:0.5px solid var(--i06); }
+.step:last-child { border-bottom:0.5px solid var(--i06); }
+.step-num { width:24px; height:24px; border-radius:50%; background:var(--ink); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:500; color:var(--ivory); flex-shrink:0; margin-top:1px; }
+.step-body { flex:1; }
+.step-title { font-family:'Fraunces',serif; font-size:15px; font-weight:400; color:var(--ink); letter-spacing:-0.2px; margin-bottom:3px; }
+.step-title em { font-style:italic; color:var(--emerald); }
+.step-desc { font-family:'Fraunces',serif; font-style:italic; font-size:12px; font-weight:300; color:var(--i35); line-height:1.55; }
+.step-eg { font-size:10px; color:var(--i20); margin-top:4px; letter-spacing:0.2px; }
+
+/* Proof divider */
+.proof-divider { display:flex; align-items:center; gap:12px; margin:28px 0 24px; }
+.pd-line { flex:1; height:0.5px; background:var(--i10); }
+.pd-text { font-family:'Fraunces',serif; font-style:italic; font-size:11px; color:var(--i20); white-space:nowrap; }
+
+/* Diwali proof */
+.proof-ey { font-size:9px; color:var(--emerald); letter-spacing:2.5px; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.pe-line { width:14px; height:0.5px; background:var(--emerald); }
+.proof-hl { font-family:'Fraunces',serif; font-size:24px; font-weight:400; line-height:1.15; color:var(--ink); letter-spacing:-0.6px; margin-bottom:12px; }
+.proof-hl em { font-style:italic; }
+.proof-story { font-family:'Fraunces',serif; font-style:italic; font-size:14px; font-weight:300; color:var(--i35); line-height:1.7; margin-bottom:8px; }
+.proof-story strong { color:var(--ink); font-weight:400; font-style:normal; }
+.proof-story .hl-green { color:var(--emerald); font-style:normal; }
+.proof-tap { font-size:11px; color:var(--i20); margin-bottom:18px; }
+
+/* WA card */
+.wa-card { background:#EDE9E0; border-radius:16px; overflow:hidden; border:0.5px solid var(--i06); margin-bottom:20px; }
+.wa-hdr { background:#DEDAD2; padding:10px 14px; display:flex; align-items:center; gap:10px; border-bottom:0.5px solid var(--i06); }
+.wa-av { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,rgba(246,213,138,0.4),rgba(200,160,80,0.3)); border:1px solid rgba(246,213,138,0.4); display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-style:italic; font-size:14px; color:rgba(140,100,40,0.8); flex-shrink:0; }
+.wa-ct { flex:1; }
+.wa-nm { font-size:13px; font-weight:500; color:var(--ink); margin-bottom:1px; }
+.wa-sb { font-size:9px; color:var(--i35); }
+.wa-si { font-family:'Fraunces',serif; font-size:11px; color:var(--i20); font-style:italic; }
+.wa-chat { padding:12px 14px 14px; display:flex; flex-direction:column; gap:8px; background:#EDE9E0; }
+.wa-time { font-size:10px; color:var(--i20); text-align:center; letter-spacing:0.3px; }
+.wa-bub { background:#fff; border-radius:12px 12px 12px 2px; padding:10px 12px; max-width:90%; align-self:flex-start; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+.wa-bub-lbl { font-size:8px; color:var(--i20); letter-spacing:0.3px; margin-bottom:6px; text-transform:uppercase; }
+.wa-voice { display:flex; align-items:center; gap:8px; }
+.wv-btn { width:34px; height:34px; border-radius:50%; background:var(--emerald); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; box-shadow:0 2px 8px rgba(64,224,128,0.3); transition:opacity 0.2s; }
+.wv-btn:hover { opacity:0.9; }
+.wv-tri { width:0; height:0; border-top:6px solid transparent; border-bottom:6px solid transparent; border-left:10px solid var(--ink); margin-left:2px; }
+.wv-pause { display:flex; gap:3px; }
+.wv-pb { width:3px; height:11px; background:var(--ink); border-radius:1.5px; }
+.wv-track { flex:1; display:flex; flex-direction:column; gap:4px; }
+.wv-wf { display:flex; align-items:center; gap:1.5px; height:24px; }
+.wv-bar { flex:1; border-radius:2px; background:var(--i10); }
+.wv-bar.lit { background:var(--emerald); animation:wlit 0.8s ease infinite; }
+@keyframes wlit { 0%,100%{transform:scaleY(1);} 50%{transform:scaleY(0.35);} }
+.wv-tm { font-size:10px; color:var(--i20); align-self:flex-end; }
+.wa-bub-ft { display:flex; justify-content:space-between; align-items:center; margin-top:6px; }
+.wbf-nm { font-family:'Fraunces',serif; font-style:italic; font-size:11px; color:var(--i35); }
+.wbf-tk { font-size:11px; color:var(--emerald); }
+.wa-note { background:rgba(255,255,255,0.5); border-radius:8px; padding:8px 12px; align-self:center; font-size:10px; color:var(--i35); text-align:center; line-height:1.5; border:0.5px solid var(--i06); }
+.wa-note strong { color:var(--i60); font-weight:500; }
+.f2-pi { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.pi-tag { display:flex; align-items:center; gap:6px; background:var(--i06); border:0.5px solid var(--i10); border-radius:100px; padding:5px 12px; }
+.pit-dot { width:5px; height:5px; border-radius:50%; background:var(--emerald); flex-shrink:0; }
+.pit-nm { font-size:10px; color:var(--i35); }
+.pi-r { display:flex; align-items:center; gap:8px; }
+.pi-pr { font-family:'Fraunces',serif; font-size:20px; font-weight:400; color:var(--ink); letter-spacing:-0.3px; }
+.pi-dl { font-size:10px; color:var(--i20); display:flex; align-items:center; gap:4px; }
+.pid-dot { width:3px; height:3px; border-radius:50%; background:var(--wa); flex-shrink:0; }
+.f2-ctas { display:flex; flex-direction:column; gap:9px; }
+
+/* ─── FOLD 3 ─── */
+.f3 { background:var(--ivory); padding:48px 24px 48px; }
+.prod-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:24px 0 20px; }
+.pc { background:#fff; border-radius:16px; overflow:hidden; border:0.5px solid var(--i06); cursor:pointer; transition:border-color 0.2s, transform 0.15s; position:relative; }
+.pc:hover { border-color:var(--i20); transform:translateY(-1px); }
+.pc:active { transform:scale(0.98); }
+.pc-badge { position:absolute; top:10px; left:10px; z-index:3; font-size:8px; font-weight:500; letter-spacing:1px; text-transform:uppercase; padding:3px 8px; border-radius:100px; }
+.b-black { background:var(--ink); color:var(--ivory); }
+.b-green { background:var(--emerald); color:var(--ink); }
+.b-gold { background:rgba(246,213,138,0.9); color:var(--ink); }
+.pc-vis { width:100%; aspect-ratio:1/1; position:relative; overflow:hidden; }
+.pcv-bg { position:absolute; inset:0; }
+.pcv-gr { position:absolute; inset:0; background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.007) 2px,rgba(255,255,255,0.007) 3px); opacity:0.4; }
+.pcv-lbl { position:absolute; bottom:8px; left:8px; right:8px; z-index:3; font-size:8px; color:rgba(255,255,255,0.35); letter-spacing:0.5px; text-transform:uppercase; line-height:1.3; }
+.pcv-c { position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px; }
+.bg-v { background:radial-gradient(ellipse at 50% 40%,rgba(64,224,128,0.14) 0%,transparent 60%),linear-gradient(135deg,#060e06,#080e08); }
+.bg-p { background:radial-gradient(ellipse at 50% 35%,rgba(246,213,138,0.14) 0%,transparent 55%),linear-gradient(135deg,#0e0a04,#140c04); }
+.bg-s { background:radial-gradient(ellipse at 50% 40%,rgba(166,200,255,0.1) 0%,transparent 55%),linear-gradient(135deg,#060810,#08080e); }
+.bg-l { background:radial-gradient(ellipse at 50% 40%,rgba(246,190,100,0.1) 0%,transparent 55%),linear-gradient(135deg,#100806,#0e0806); }
+.pc-info { padding:10px 12px 12px; }
+.pc-nm { font-family:'Fraunces',serif; font-size:14px; font-weight:400; color:var(--ink); letter-spacing:-0.2px; margin-bottom:2px; }
+.pc-ds { font-size:10px; color:var(--i35); line-height:1.4; margin-bottom:8px; }
+.pc-ds em { font-style:italic; font-family:'Fraunces',serif; font-size:11px; color:var(--i35); }
+.pc-bt { display:flex; justify-content:space-between; align-items:center; }
+.pc-pr { font-size:15px; font-weight:500; color:var(--ink); letter-spacing:-0.2px; }
+.pc-dl { font-size:9px; color:var(--i20); display:flex; align-items:center; gap:3px; }
+.pdd { width:3px; height:3px; border-radius:50%; background:var(--wa); flex-shrink:0; }
+/* mini visuals */
+.mwf { display:flex; align-items:center; gap:1.5px; height:20px; }
+.mwb { width:2.5px; border-radius:1.5px; background:rgba(64,224,128,0.2); }
+.mwb.a { background:var(--emerald); animation:mwl 0.9s ease infinite; }
+@keyframes mwl { 0%,100%{transform:scaleY(1);} 50%{transform:scaleY(0.3);} }
+.mf { width:36px; height:42px; position:relative; animation:mb 4s ease infinite; margin-bottom:4px; }
+@keyframes mb { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-2px);} }
+.mfh { width:30px; height:34px; border-radius:50% 50% 44% 44%; background:linear-gradient(160deg,#c49060,#9a6840); position:absolute; top:6px; left:3px; overflow:hidden; }
+.mfhr { position:absolute; top:-1px; left:-2px; right:-2px; height:16px; background:#251505; border-radius:50% 50% 0 0; }
+.mfe { position:absolute; top:18px; left:0; right:0; display:flex; justify-content:space-around; padding:0 6px; }
+.mfey { width:7px; height:5px; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; animation:mbe 4s ease infinite; }
+@keyframes mbe { 0%,84%,100%{transform:scaleY(1);} 89%{transform:scaleY(0.08);} }
+.mfei { width:4px; height:4px; border-radius:50%; background:#3d2010; }
+.mfsm { position:absolute; bottom:6px; left:50%; transform:translateX(-50%); width:10px; height:5px; border-bottom:1.5px solid rgba(42,26,10,0.4); border-radius:0 0 6px 6px; }
+.mfnk { width:10px; height:8px; background:#9a6840; margin:0 auto; border-radius:0 0 3px 3px; }
+.mali { display:flex; align-items:center; gap:3px; background:rgba(64,224,128,0.12); border:0.5px solid rgba(64,224,128,0.25); border-radius:100px; padding:2px 6px; }
+.mali-d { width:4px; height:4px; border-radius:50%; background:var(--emerald); animation:pulse 2s ease infinite; flex-shrink:0; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.3;transform:scale(0.6);} }
+.mali-t { font-size:7px; color:rgba(64,224,128,0.75); }
+.mmu { font-size:24px; opacity:0.4; animation:mn 2s ease infinite; }
+@keyframes mn { 0%,100%{transform:translateY(0);opacity:0.4;} 50%{transform:translateY(-4px);opacity:0.7;} }
+.mlt { width:42px; height:30px; background:rgba(255,253,247,0.08); border:0.5px solid rgba(246,190,100,0.2); border-radius:3px; padding:5px 6px; display:flex; flex-direction:column; gap:3px; }
+.mll { height:1px; border-radius:1px; background:rgba(246,190,100,0.25); }
+.mls { font-family:'Fraunces',serif; font-style:italic; font-size:7px; color:rgba(246,190,100,0.5); margin-top:1px; }
+.f3-bt { display:flex; flex-direction:column; gap:9px; }
+.f3-nt { font-family:'Fraunces',serif; font-style:italic; font-size:12px; font-weight:300; color:var(--i20); text-align:center; line-height:1.6; }
+.f3-nt strong { color:var(--ink); font-weight:400; font-style:normal; }
+
+/* ─── FOLD 4 ─── */
+.f4 { background:var(--ivory); padding:48px 24px 48px; position:relative; overflow:hidden; }
+.f4-bg { position:absolute; width:400px; height:300px; border-radius:50%; background:radial-gradient(ellipse,rgba(246,213,138,0.1) 0%,transparent 70%); top:-60px; right:-100px; pointer-events:none; z-index:0; }
+.f4-inner { position:relative; z-index:2; }
+.occ-grid { display:flex; flex-direction:column; gap:0; margin:20px 0 16px; }
+.occ-row { display:flex; gap:10px; margin-bottom:10px; }
+.occ-t { flex:1; background:#fff; border:0.5px solid var(--i06); border-radius:14px; padding:12px 10px; cursor:pointer; transition:all 0.2s; display:flex; flex-direction:column; gap:4px; }
+.occ-t:hover { border-color:var(--i20); transform:translateY(-1px); }
+.occ-t:active { transform:scale(0.97); }
+.occ-t.active { background:var(--ink); border-color:var(--ink); }
+.occ-em { font-size:20px; line-height:1; }
+.occ-nm { font-family:'Fraunces',serif; font-size:13px; font-weight:400; color:var(--ink); letter-spacing:-0.2px; transition:color 0.2s; }
+.occ-t.active .occ-nm { color:var(--ivory); }
+.occ-ct { font-size:9px; color:var(--i20); transition:color 0.2s; }
+.occ-t.active .occ-ct { color:rgba(255,253,247,0.35); }
+.occ-det { background:var(--ink); border-radius:16px; padding:18px; margin-bottom:20px; overflow:hidden; position:relative; }
+.od-glow { position:absolute; inset:0; background:radial-gradient(ellipse at 30% 50%,rgba(64,224,128,0.08) 0%,transparent 60%); pointer-events:none; }
+.od-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; position:relative; z-index:2; }
+.od-lbl { font-size:9px; color:var(--w20); letter-spacing:2px; text-transform:uppercase; display:flex; align-items:center; gap:6px; }
+.od-pf { font-size:9px; color:var(--emerald); }
+.od-hl { font-family:'Fraunces',serif; font-style:italic; font-size:16px; font-weight:300; color:var(--w90); line-height:1.4; margin-bottom:12px; position:relative; z-index:2; }
+.od-prods { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:14px; position:relative; z-index:2; }
+.od-prod { display:flex; align-items:center; gap:5px; background:var(--w06); border:0.5px solid rgba(255,255,255,0.1); border-radius:100px; padding:4px 9px; }
+.odp-dot { width:4px; height:4px; border-radius:50%; flex-shrink:0; }
+.odp-nm { font-size:10px; color:var(--w35); }
+.odp-pr { font-size:10px; color:var(--emerald); font-weight:500; }
+.od-cta { font-family:'Geist',sans-serif; font-size:12px; font-weight:500; color:var(--ink); background:var(--emerald); border:none; padding:11px; border-radius:100px; cursor:pointer; width:100%; position:relative; z-index:2; }
+.f4-bt { text-align:center; }
+.f4b-tx { font-family:'Fraunces',serif; font-style:italic; font-size:13px; font-weight:300; color:var(--i20); line-height:1.6; margin-bottom:12px; }
+.f4b-tx strong { color:var(--ink); font-weight:400; font-style:normal; }
+.f4b-cta { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--i35); background:var(--i06); border:0.5px solid var(--i10); padding:10px 18px; border-radius:100px; cursor:pointer; }
+
+/* ─── FOLD 5 ─── */
+.f5 { background:var(--ink); position:relative; overflow:hidden; }
+.f5-tr { height:60px; background:linear-gradient(to bottom,var(--ivory),var(--ink)); }
+.f5-gl { position:absolute; width:350px; height:350px; border-radius:50%; background:radial-gradient(ellipse,rgba(246,213,138,0.07) 0%,transparent 65%); top:10%; left:-80px; pointer-events:none; z-index:0; }
+.f5-gr-r { position:absolute; width:280px; height:280px; border-radius:50%; background:radial-gradient(ellipse,rgba(64,224,128,0.05) 0%,transparent 65%); bottom:15%; right:-60px; pointer-events:none; z-index:0; }
+.f5-grain { position:absolute; inset:0; background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.005) 2px,rgba(255,255,255,0.005) 3px); opacity:0.4; pointer-events:none; z-index:0; }
+.f5-inner { padding:0 24px 48px; position:relative; z-index:2; }
+.f5-ey { font-size:9px; color:var(--emerald); letter-spacing:2.5px; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.f5-ey-l { width:14px; height:0.5px; background:var(--emerald); }
+.f5-hl { font-family:'Fraunces',serif; font-size:28px; font-weight:400; line-height:1.1; color:var(--w90); letter-spacing:-0.7px; margin-bottom:14px; }
+.f5-hl em { font-style:italic; color:var(--emerald); }
+.f5-st { font-family:'Fraunces',serif; font-style:italic; font-size:15px; font-weight:300; color:rgba(255,255,255,0.4); line-height:1.7; margin-bottom:24px; }
+.f5-st strong { color:var(--w90); font-weight:400; font-style:normal; }
+.f5-st .f5-am { color:var(--amber); font-style:normal; }
+.vault-c { background:var(--w06); border:0.5px solid rgba(255,255,255,0.08); border-radius:18px; overflow:hidden; margin-bottom:16px; }
+.vc-h { padding:14px 16px; border-bottom:0.5px solid rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:space-between; }
+.vc-tit { display:flex; flex-direction:column; gap:3px; }
+.vc-lb { font-size:9px; color:var(--w20); letter-spacing:2px; text-transform:uppercase; }
+.vc-nm { font-family:'Fraunces',serif; font-style:italic; font-size:18px; color:rgba(255,255,255,0.82); }
+.vc-yr { font-family:'Fraunces',serif; font-style:italic; font-size:14px; color:var(--w20); margin-left:4px; }
+.vc-ba { display:flex; align-items:center; gap:5px; background:rgba(64,224,128,0.08); border:0.5px solid rgba(64,224,128,0.18); border-radius:100px; padding:4px 10px; }
+.vcb-d { width:5px; height:5px; border-radius:50%; background:var(--emerald); animation:pulse 2s ease infinite; flex-shrink:0; }
+.vcb-t { font-size:9px; color:rgba(64,224,128,0.7); }
+.vc-q { padding:12px 16px; display:grid; grid-template-columns:1fr 1fr; gap:10px; border-bottom:0.5px solid rgba(255,255,255,0.05); }
+.vq-i { display:flex; flex-direction:column; gap:2px; }
+.vq-l { font-size:9px; color:var(--w20); letter-spacing:1px; text-transform:uppercase; }
+.vq-v { font-family:'Fraunces',serif; font-size:15px; color:rgba(255,255,255,0.7); }
+.vq-s { font-size:10px; color:rgba(255,255,255,0.25); }
+.vc-tl { padding:12px 16px; }
+.vctl { font-size:9px; color:var(--w20); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+.vct-items { display:flex; flex-direction:column; gap:8px; }
+.vct-i { display:flex; align-items:center; gap:10px; }
+.vcti-d { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.vcti-t { font-family:'Fraunces',serif; font-style:italic; font-size:12px; color:rgba(255,255,255,0.5); flex:1; }
+.vcti-t strong { color:var(--w90); font-weight:400; font-style:normal; }
+.vcti-y { font-size:10px; color:var(--w20); white-space:nowrap; }
+.free-bn { background:linear-gradient(135deg,rgba(64,224,128,0.08),rgba(64,224,128,0.04)); border:0.5px solid rgba(64,224,128,0.15); border-radius:14px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.fb-l { display:flex; flex-direction:column; gap:3px; }
+.fb-m { font-family:'Fraunces',serif; font-size:15px; color:var(--w90); }
+.fb-m em { font-style:italic; color:var(--emerald); }
+.fb-s { font-size:10px; color:var(--w20); }
+.fb-b { font-family:'Geist',sans-serif; font-size:11px; font-weight:500; color:var(--ink); background:var(--emerald); border:none; padding:9px 14px; border-radius:100px; cursor:pointer; white-space:nowrap; flex-shrink:0; }
+.f5-ct { display:flex; flex-direction:column; gap:9px; }
+
+/* ─── FOLD 6 ─── */
+.f6 { background:var(--ivory); position:relative; overflow:hidden; }
+.f6-tr { height:60px; background:linear-gradient(to bottom,var(--ink),var(--ivory)); }
+.f6-bg { position:absolute; width:400px; height:300px; border-radius:50%; background:radial-gradient(ellipse,rgba(246,213,138,0.1) 0%,transparent 70%); top:-60px; left:50%; transform:translateX(-50%); pointer-events:none; z-index:0; }
+.f6-inner { padding:0 24px 48px; position:relative; z-index:2; }
+.f6-hl { font-family:'Fraunces',serif; font-size:26px; font-weight:400; line-height:1.1; color:var(--ink); letter-spacing:-0.7px; margin-bottom:7px; }
+.f6-hl em { font-style:italic; color:var(--emerald); }
+.f6-sub { font-family:'Fraunces',serif; font-style:italic; font-size:13px; font-weight:300; color:var(--i35); line-height:1.6; margin-bottom:24px; }
+.trust-l { margin-bottom:24px; }
+.ti { padding:18px 0; border-top:0.5px solid var(--i06); display:flex; flex-direction:column; gap:6px; }
+.ti:last-child { border-bottom:0.5px solid var(--i06); }
+.ti-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+.ti-tit { font-family:'Fraunces',serif; font-size:16px; font-weight:400; color:var(--ink); letter-spacing:-0.2px; line-height:1.2; }
+.ti-ck { width:22px; height:22px; border-radius:50%; background:rgba(64,224,128,0.12); border:0.5px solid rgba(64,224,128,0.25); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:10px; color:var(--emerald); }
+.ti-bd { font-family:'Fraunces',serif; font-style:italic; font-size:12px; font-weight:300; color:var(--i35); line-height:1.6; }
+.priv-b { background:var(--ink); border-radius:16px; padding:18px; margin-bottom:20px; position:relative; overflow:hidden; }
+.pb-gl { position:absolute; inset:0; background:radial-gradient(ellipse at 30% 50%,rgba(246,213,138,0.06) 0%,transparent 60%); pointer-events:none; }
+.pb-q { font-family:'Fraunces',serif; font-style:italic; font-size:15px; font-weight:300; color:rgba(255,255,255,0.65); line-height:1.6; margin-bottom:12px; position:relative; z-index:2; }
+.pb-q em { color:var(--w90); }
+.pb-q .pb-am { color:var(--amber); font-style:normal; }
+.pb-is { display:flex; flex-direction:column; gap:7px; position:relative; z-index:2; }
+.pb-i { display:flex; align-items:flex-start; gap:9px; }
+.pbi-d { width:5px; height:5px; border-radius:50%; background:rgba(64,224,128,0.5); flex-shrink:0; margin-top:4px; }
+.pbi-t { font-size:11px; color:var(--w20); letter-spacing:0.2px; line-height:1.5; }
+.f6-hm { margin-bottom:20px; }
+.f6hm-hl { font-family:'Fraunces',serif; font-size:17px; font-weight:400; color:var(--ink); letter-spacing:-0.3px; margin-bottom:6px; line-height:1.2; }
+.f6hm-hl em { font-style:italic; color:var(--emerald); }
+.f6hm-sub { font-family:'Fraunces',serif; font-style:italic; font-size:12px; font-weight:300; color:var(--i35); line-height:1.6; }
+.f6-ct { display:flex; flex-direction:column; gap:9px; }
+.f6-nt { font-size:11px; color:var(--i20); text-align:center; line-height:1.6; }
+
+/* ─── FOLD 7 ─── */
+.f7 { background:var(--ivory); padding:48px 24px 0; position:relative; overflow:hidden; }
+.f7-bg { position:absolute; width:500px; height:400px; border-radius:50%; background:radial-gradient(ellipse,rgba(246,213,138,0.12) 0%,transparent 70%); top:-80px; left:50%; transform:translateX(-50%); pointer-events:none; z-index:0; }
+.f7-inner { position:relative; z-index:2; }
+.f7-shl { font-family:'Fraunces',serif; font-size:26px; font-weight:400; line-height:1.1; color:var(--ink); letter-spacing:-0.7px; margin-bottom:6px; }
+.f7-shl em { font-style:italic; color:var(--emerald); }
+.f7-ssub { font-family:'Fraunces',serif; font-style:italic; font-size:12px; font-weight:300; color:var(--i35); margin-bottom:20px; line-height:1.5; }
+.stats-r { display:flex; border-top:0.5px solid var(--i06); margin-bottom:28px; }
+.st-i { flex:1; padding:14px 0; display:flex; flex-direction:column; gap:3px; border-right:0.5px solid var(--i06); }
+.st-i:last-child { border-right:none; }
+.st-n { font-family:'Fraunces',serif; font-size:20px; font-weight:400; color:var(--ink); letter-spacing:-0.5px; }
+.st-l { font-size:9px; color:var(--i20); letter-spacing:1px; text-transform:uppercase; line-height:1.3; }
+.testis { display:flex; flex-direction:column; gap:12px; margin-bottom:28px; }
+.tcard { background:#fff; border:0.5px solid var(--i06); border-radius:16px; padding:16px; }
+.tc-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.tc-av { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,rgba(246,213,138,0.2),var(--i06)); border:0.5px solid var(--i06); display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-style:italic; font-size:13px; color:var(--i20); flex-shrink:0; }
+.tc-inf { flex:1; }
+.tc-nm { font-size:12px; font-weight:500; color:var(--ink); margin-bottom:1px; }
+.tc-mt { font-size:9px; color:var(--i20); letter-spacing:0.3px; }
+.tc-st { display:flex; gap:2px; }
+.tc-s { font-size:11px; color:var(--gold); }
+.tc-q { font-family:'Fraunces',serif; font-style:italic; font-size:14px; font-weight:300; color:var(--i60); line-height:1.55; margin-bottom:8px; }
+.tc-q em { color:var(--emerald); font-style:normal; font-weight:400; }
+.tc-pt { display:inline-flex; align-items:center; gap:5px; background:var(--i06); border:0.5px solid var(--i06); border-radius:100px; padding:3px 10px; }
+.tpt-d { width:4px; height:4px; border-radius:50%; flex-shrink:0; }
+.tpt-n { font-size:9px; color:var(--i35); }
+.fin-bl { background:var(--ink); border-radius:20px; padding:26px 20px; position:relative; overflow:hidden; margin-bottom:20px; }
+.fin-gl { position:absolute; inset:0; background:radial-gradient(ellipse at 50% 30%,rgba(64,224,128,0.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(246,213,138,0.06) 0%,transparent 50%); pointer-events:none; }
+.fin-ey { font-size:9px; color:var(--w20); letter-spacing:2.5px; text-transform:uppercase; margin-bottom:12px; position:relative; z-index:2; display:flex; align-items:center; gap:8px; }
+.fin-ey-l { width:14px; height:0.5px; background:var(--w20); }
+.fin-hl { font-family:'Fraunces',serif; font-size:24px; font-weight:400; line-height:1.1; color:var(--w90); letter-spacing:-0.6px; margin-bottom:6px; position:relative; z-index:2; }
+.fin-hl em { font-style:italic; color:var(--emerald); }
+.fin-hi { font-family:'Fraunces',serif; font-style:italic; font-size:12px; font-weight:300; color:var(--gold-d); margin-bottom:22px; position:relative; z-index:2; }
+.fin-cp { width:100%; font-family:'Geist',sans-serif; font-size:14px; font-weight:500; color:var(--ink); background:var(--emerald); border:none; padding:14px; border-radius:100px; cursor:pointer; display:flex; align-items:center; justify-content:center; margin-bottom:9px; position:relative; z-index:2; }
+.fin-cs { width:100%; font-family:'Geist',sans-serif; font-size:12px; font-weight:400; color:var(--w35); background:var(--w06); border:0.5px solid rgba(255,255,255,0.1); padding:13px; border-radius:100px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; position:relative; z-index:2; }
+.fcs-pw { width:16px; height:16px; border-radius:50%; background:var(--w10); border:0.5px solid var(--w20); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.fcs-pt { width:0; height:0; border-top:3px solid transparent; border-bottom:3px solid transparent; border-left:5px solid var(--w35); margin-left:1px; }
+.footer { border-top:0.5px solid var(--i06); padding:24px 0 40px; display:flex; flex-direction:column; gap:14px; }
+.fl { font-family:'Fraunces',serif; font-size:18px; font-weight:400; color:var(--ink); letter-spacing:-0.2px; }
+.fl span { color:var(--emerald); }
+.fl-links { display:flex; flex-wrap:wrap; gap:6px 14px; }
+.fl-link { font-size:11px; color:var(--i35); cursor:pointer; transition:color 0.2s; }
+.fl-link:hover { color:var(--i60); }
+.fl-bt { font-size:10px; color:var(--i20); line-height:1.6; }
+
+
+/* ═══════════════ MOBILE-FIRST: phone mock REMOVED ═══════════════
+   Always-on (no media query). The page renders edge-to-edge so the
+   visitor sees the actual product, not a phone-in-a-phone. */
+html, body {
+  background: #FFFDF7 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+}
+body {
+  display: block !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+.phone, .phone-shell {
+  width: 100% !important;
+  max-width: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+.di, .dynamic-island { display: none !important; }
+
+/* Fold-1 height should be the viewport, not a fixed 812px laptop preview */
+.f1, .fold1 { height: 100vh !important; min-height: 600px !important; max-height: none !important; }
+
+/* Hide the fake status bar — real device has its own */
+.f1sb, .f1-sb, .f1-status { display: none !important; }
+
+/* Push nav and dots down so they don't sit under the device notch */
+.f1-nav, .f1nav { top: calc(env(safe-area-inset-top, 0) + 16px) !important; }
+.f1-dots, .f1dots { top: calc(env(safe-area-inset-top, 0) + 16px) !important; }
+.wa-notif { top: calc(env(safe-area-inset-top, 0) + 50px) !important; }
+.fs-close, .fsx, .fs-x { top: calc(env(safe-area-inset-top, 0) + 12px) !important; }
+
+/* Bottom safe area for newer iPhones */
+.f1bot, .f1-bottom { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0)) !important; }
+
+/* Cap content width on tablets/desktop so the long-scroll mobile design
+   isn't grotesquely wide on a 27" monitor — but it remains "real",
+   not a phone mockup. */
+@media (min-width: 540px) {
+  .phone, .phone-shell {
+    max-width: 540px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 0 0 1px rgba(13,15,23,0.06) !important;
+  }
+  body { background: #F3EFE3 !important; }
+}
+
+</style>
+</head>
+<body>
+<div class="phone">
+<div class="di"></div>
+
+<!-- ═══════════════ FOLD 1 ═══════════════ -->
+<div class="f1">
+  <div class="f1-img">
+    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&fit=crop&crop=face" alt="Papa" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'375\' height=\'812\'%3E%3Crect fill=\'%231a0e06\'/%3E%3Ccircle cx=\'188\' cy=\'300\' r=\'120\' fill=\'%23c49060\'/%3E%3C/svg%3E'"/>
+  </div>
+  <div class="f1-ov-top"></div>
+  <div class="f1-ov-bot"></div>
+  <div class="f1-ov-sides"></div>
+
+  <div class="f1-sb">
+    <span class="f1-time">9:41</span>
+    <div class="f1-icons">
+      <div class="f1-signal">
+        <div class="f1-sbar" style="height:28%"></div><div class="f1-sbar" style="height:52%"></div>
+        <div class="f1-sbar" style="height:76%"></div><div class="f1-sbar" style="height:100%"></div>
+      </div>
+      <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><rect x=".5" y=".5" width="20" height="11" rx="3" stroke="rgba(255,255,255,0.28)"/><rect x="2" y="2" width="15" height="8" rx="1.5" fill="rgba(255,255,255,0.7)"/></svg>
+    </div>
+  </div>
+
+  <div class="f1-dots" id="f1dots"></div>
+
+  <div class="f1-nav">
+    <div class="f1-logo">Siy<span>AI</span></div>
+    <div class="f1-mute" onclick="toggleMute()">
+      <span class="f1-mi" id="mIcon">🔇</span>
+      <span class="f1-mt" id="mText">Unmute</span>
+    </div>
+  </div>
+
+  <div class="f1-bot">
+    <div class="f1-lbl-row">
+      <div class="f1-lbl-line"></div>
+      <span class="f1-lbl-text" id="f1lbl">A SiyAI Film · Papa ki 60th Birthday</span>
+    </div>
+    <h1 class="f1-hl" id="f1hl">There's a <em>movie</em><br>hidden in every life.</h1>
+    <p class="f1-hi" id="f1hi">Har zindagi mein ek film chupi hai.</p>
+    <div class="f1-ctas">
+      <button class="cta-p">Start Your Film →</button>
+      <button class="cta-s on-ivory" onclick="openFS()">
+        <div class="s-play-w ivory"><div class="s-tri-ivory"></div></div>
+        Watch the full sample film
+      </button>
+    </div>
+    <div class="meta-row">
+      <div class="mi ivory"><div class="wa-g"></div><span class="wa-t">WhatsApp delivery</span></div>
+      <div class="m-sep ivory"></div>
+      <div class="mi ivory">Starting ₹299</div>
+      <div class="m-sep ivory"></div>
+      <div class="mi ivory">Made in India</div>
+    </div>
+  </div>
+  <div class="f1-prog"><div class="f1-pf" id="f1pf"></div></div>
+
+  <div class="fs-ov" id="fsov">
+    <div class="fs-bg"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&fit=crop&crop=face" alt="Papa" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'375\' height=\'812\'%3E%3Crect fill=\'%231a0e06\'/%3E%3C/svg%3E'"/></div>
+    <div class="fs-dark"></div>
+    <div class="fs-x" onclick="closeFS()">✕</div>
+    <div class="fs-body">
+      <span class="fs-ey">Full Sample Film</span>
+      <h2 class="fs-hl">Papa ki <em>60th</em> Birthday</h2>
+      <p class="fs-sub">Sharma Family · Delhi · 2024</p>
+      <div class="fs-play"><div class="fs-tri"></div></div>
+      <p class="fs-mt">1 min 42 sec · Sound on · Memory Film</p>
+    </div>
+    <div class="fs-ft">
+      <button class="fs-cta">Start Your Film →</button>
+      <button class="fs-bk" onclick="closeFS()">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FOLD 2 ═══════════════ -->
+<div class="f2">
+<div class="f2-inner">
+  <div class="sect-bar on-ivory" style="margin-bottom:28px">
+    <span class="sb-n on-ivory">№ 01</span>
+    <div class="sb-r on-ivory" style="background:rgba(13,15,23,0.1)"></div>
+    <span class="sb-t on-ivory">How it works</span>
+  </div>
+
+  <div class="mechanic">
+    <h2 class="mech-hl">Share a moment.<br><em>We'll make it a film.</em></h2>
+    <p class="mech-sub">Any moment. Any memory. Any person you love. We turn it into something cinematic — delivered on WhatsApp.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <p class="step-title">Share <em>anything</em></p>
+          <p class="step-desc">A voice note. A photo. A memory you want preserved. However small. However old.</p>
+          <p class="step-eg">E.g. A 30-second voice note. Three old photographs.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <p class="step-title">We craft your <em>film</em></p>
+          <p class="step-desc">Our team — AI and human together — turns your moment into something cinematic. Reviewed by real people before it leaves us.</p>
+          <p class="step-eg">Ready in 4–24 hours depending on the product.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <p class="step-title">It arrives on <em>WhatsApp</em></p>
+          <p class="step-desc">Directly to your phone. No app. No account. No login. Just a film of your memory — ready to keep or share.</p>
+          <p class="step-eg">Starting ₹299. Delivered same day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proof-divider">
+    <div class="pd-line"></div>
+    <span class="pd-text">A real moment it made possible</span>
+    <div class="pd-line"></div>
+  </div>
+
+  <div class="proof-ey"><div class="pe-line"></div>A real memory</div>
+  <h2 class="proof-hl">On Diwali, Papa wished us.<br><em>He has been gone three years.</em></h2>
+  <p class="proof-story"><strong>This is the kind of moment we make.</strong> Built from a 30-second voice note her son had on his phone, and three old photographs.<br><br>The family asked us not to share the audio. <span class="hl-green">They listen alone.</span></p>
+  <p class="proof-tap">Tap play to hear what arrived on WhatsApp.</p>
+
+  <div class="wa-card">
+    <div class="wa-hdr">
+      <div class="wa-av">प</div>
+      <div class="wa-ct"><p class="wa-nm">Papa</p><p class="wa-sb">SiyAI · delivered today, 09:14</p></div>
+      <span class="wa-si">SiyAI</span>
+    </div>
+    <div class="wa-chat">
+      <div class="wa-time">HAPPY DIWALI · 09:14</div>
+      <div class="wa-bub">
+        <p class="wa-bub-lbl">Voice Message · 0:60</p>
+        <div class="wa-voice">
+          <div class="wv-btn" id="wvBtn" onclick="toggleVoice()"><div id="wvIcon" class="wv-tri"></div></div>
+          <div class="wv-track"><div class="wv-wf" id="wvWF"></div><span class="wv-tm" id="wvTm">0:00</span></div>
+        </div>
+        <div class="wa-bub-ft"><span class="wbf-nm">— Papa ki awaaz mein</span><span class="wbf-tk">✓✓</span></div>
+      </div>
+      <div class="wa-note"><strong>Built from a 30-second voice note.</strong><br>Three old photographs. Made in 4 hours.</div>
+    </div>
+  </div>
+
+  <div class="f2-pi">
+    <div class="pi-tag"><div class="pit-dot"></div><span class="pit-nm">AI Voice Letter</span></div>
+    <div class="pi-r"><span class="pi-pr">₹299</span><div class="pi-dl"><div class="pid-dot"></div>4 hrs · WhatsApp</div></div>
+  </div>
+  <div class="f2-ctas">
+    <button class="cta-p">Start Your Film — ₹299 →</button>
+    <button class="cta-s on-ivory">See all four ways to film a memory</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════ FOLD 3 ═══════════════ -->
+<div class="f3">
+  <div class="sect-bar on-ivory" style="margin-bottom:24px">
+    <span class="sb-n" style="color:rgba(13,15,23,0.2)">№ 02</span>
+    <div class="sb-r" style="background:rgba(13,15,23,0.1)"></div>
+    <span class="sb-t" style="color:rgba(13,15,23,0.2)">Four Ways to Film</span>
+  </div>
+  <h2 class="fold-hl" style="color:var(--ink);margin-bottom:7px">The most <em>personal</em> gift<br>they will ever receive.</h2>
+  <p class="fold-sub ivory" style="margin-bottom:0">Char tarike — pehli baar India mein.</p>
+
+  <div class="prod-grid">
+    <div class="pc">
+      <div class="pc-badge b-black">Bestseller</div>
+      <div class="pc-vis"><div class="pcv-bg bg-v"></div><div class="pcv-gr"></div><div class="pcv-c"><div class="mwf" id="mwf1"></div></div><div class="pcv-lbl">PHOTO · PAPA ON PHONE</div></div>
+      <div class="pc-info"><p class="pc-nm">Voice Letter</p><p class="pc-ds">60 sec, in their voice<br><em>"Har saal Papa ki awaaz"</em></p><div class="pc-bt"><span class="pc-pr">₹299</span><div class="pc-dl"><div class="pdd"></div>4 hrs</div></div></div>
+    </div>
+    <div class="pc">
+      <div class="pc-badge b-green">Trending</div>
+      <div class="pc-vis"><div class="pcv-bg bg-p"></div><div class="pcv-gr"></div><div class="pcv-c"><div class="mf"><div class="mfh"><div class="mfhr"></div><div class="mfe"><div class="mfey"><div class="mfei"></div></div><div class="mfey"><div class="mfei"></div></div></div><div class="mfsm"></div></div><div class="mfnk"></div></div><div class="mali"><div class="mali-d"></div><span class="mali-t">Living</span></div></div><div class="pcv-lbl">PHOTO · DADI 1987</div></div>
+      <div class="pc-info"><p class="pc-nm">Living Portrait</p><p class="pc-ds">Photo, alive<br><em>"Dadi ki photo boli..."</em></p><div class="pc-bt"><span class="pc-pr">₹499</span><div class="pc-dl"><div class="pdd"></div>6 hrs</div></div></div>
+    </div>
+    <div class="pc">
+      <div class="pc-vis"><div class="pcv-bg bg-s"></div><div class="pcv-gr"></div><div class="pcv-c"><div class="mmu">♫</div></div><div class="pcv-lbl">PHOTO · SANGEET STAGE</div></div>
+      <div class="pc-info"><p class="pc-nm">Custom Song</p><p class="pc-ds">2 min · lyrics included<br><em>"Sangeet ka naya gaana"</em></p><div class="pc-bt"><span class="pc-pr">₹999</span><div class="pc-dl"><div class="pdd"></div>24 hrs</div></div></div>
+    </div>
+    <div class="pc">
+      <div class="pc-badge b-gold">New</div>
+      <div class="pc-vis"><div class="pcv-bg bg-l"></div><div class="pcv-gr"></div><div class="pcv-c"><div class="mlt"><div class="mll" style="width:100%"></div><div class="mll" style="width:80%"></div><div class="mll" style="width:90%"></div><div class="mls">— Papa</div></div></div><div class="pcv-lbl">PHOTO · OLD LETTER</div></div>
+      <div class="pc-info"><p class="pc-nm">Handwritten Letter</p><p class="pc-ds">PDF · their handwriting<br><em>"Papa likhte the aise..."</em></p><div class="pc-bt"><span class="pc-pr">₹499</span><div class="pc-dl"><div class="pdd"></div>Digital</div></div></div>
+    </div>
+  </div>
+
+  <div class="f3-bt">
+    <p class="f3-nt"><strong>All delivered on WhatsApp.</strong><br>No app. No account. No friction.</p>
+    <button class="cta-p">Start Your Film — Starting ₹299 →</button>
+  </div>
+</div>
+
+<!-- ═══════════════ FOLD 4 ═══════════════ -->
+<div class="f4">
+  <div class="f4-bg"></div>
+  <div class="f4-inner">
+    <div class="sect-bar on-ivory" style="margin-bottom:24px">
+      <span class="sb-n" style="color:rgba(13,15,23,0.2)">№ 03</span>
+      <div class="sb-r" style="background:rgba(13,15,23,0.1)"></div>
+      <span class="sb-t" style="color:rgba(13,15,23,0.2)">Film the Moment</span>
+    </div>
+    <h2 class="fold-hl" style="color:var(--ink);margin-bottom:7px">Pick the day.<br><em>We will handle the feeling.</em></h2>
+    <p class="fold-sub ivory" style="margin-bottom:0">Every occasion is a moment worth filming.</p>
+
+    <div class="occ-grid" id="occGrid">
+      <div class="occ-row">
+        <div class="occ-t active" onclick="selOcc(0)"><span class="occ-em">🎂</span><span class="occ-nm">Birthday</span><span class="occ-ct">12 films</span></div>
+        <div class="occ-t" onclick="selOcc(1)"><span class="occ-em">💛</span><span class="occ-nm">Anniversary</span><span class="occ-ct">10 films</span></div>
+        <div class="occ-t" onclick="selOcc(2)"><span class="occ-em">🪔</span><span class="occ-nm">Diwali</span><span class="occ-ct">9 films</span></div>
+      </div>
+      <div class="occ-row">
+        <div class="occ-t" onclick="selOcc(3)"><span class="occ-em">💍</span><span class="occ-nm">Wedding</span><span class="occ-ct">8 films</span></div>
+        <div class="occ-t" onclick="selOcc(4)"><span class="occ-em">🧡</span><span class="occ-nm">Rakhi</span><span class="occ-ct">8 films</span></div>
+        <div class="occ-t" onclick="selOcc(5)"><span class="occ-em">🎓</span><span class="occ-nm">Graduation</span><span class="occ-ct">7 films</span></div>
+      </div>
+      <div class="occ-row">
+        <div class="occ-t" onclick="selOcc(6)"><span class="occ-em">💼</span><span class="occ-nm">First Salary</span><span class="occ-ct">5 films</span></div>
+        <div class="occ-t" onclick="selOcc(7)"><span class="occ-em">🕯️</span><span class="occ-nm">Memorial</span><span class="occ-ct">6 films</span></div>
+      </div>
+    </div>
+
+    <div class="occ-det">
+      <div class="od-glow"></div>
+      <div class="od-top"><div class="od-lbl"><span id="odEm">🎂</span><span id="odNm">Birthday</span></div><span class="od-pf" id="odPf">Most filmed</span></div>
+      <p class="od-hl" id="odHl">"Hear them say your name — in their own voice."</p>
+      <div class="od-prods" id="odProds"></div>
+      <button class="od-cta" id="odCta">Film for Birthday →</button>
+    </div>
+
+    <div class="f4-bt">
+      <p class="f4b-tx"><strong>Not sure what to film?</strong><br>Tell us about them and we'll suggest the perfect moment.</p>
+      <button class="f4b-cta">Help me choose →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FOLD 5 ═══════════════ -->
+<div class="f5">
+  <div class="f5-tr"></div>
+  <div class="f5-gl"></div><div class="f5-gr-r"></div><div class="f5-grain"></div>
+  <div class="f5-inner">
+    <div class="sect-bar on-dark" style="margin-bottom:28px">
+      <span class="sb-n" style="color:rgba(255,255,255,0.2)">№ 04</span>
+      <div class="sb-r" style="background:rgba(255,255,255,0.08)"></div>
+      <span class="sb-t" style="color:rgba(255,255,255,0.2)">Film Forever</span>
+    </div>
+    <div class="f5-ey"><div class="f5-ey-l"></div>Before it's too late</div>
+    <h2 class="f5-hl">Some voices should<br><em>never fade.</em></h2>
+    <p class="f5-st"><strong>Dadi left us three years ago.</strong> Her voice still lives in our Vault. Every year, on Bhai's birthday, <span class="f5-am">she still wishes him.</span><br><br>Her son recorded a 30-second voice note in 2019. He didn't know why. He knows now.</p>
+
+    <div class="vault-c">
+      <div class="vc-h">
+        <div class="vc-tit"><span class="vc-lb">In your vault</span><div><span class="vc-nm">Maa</span><span class="vc-yr">· 1957</span></div></div>
+        <div class="vc-ba"><div class="vcb-d"></div><span class="vcb-t">Active</span></div>
+      </div>
+      <div class="vc-q">
+        <div class="vq-i"><span class="vq-l">Voice Quality</span><span class="vq-v">High</span><span class="vq-s">2m 30s clip</span></div>
+        <div class="vq-i"><span class="vq-l">Face Quality</span><span class="vq-v">High</span><span class="vq-s">4 photos</span></div>
+      </div>
+      <div class="vc-tl">
+        <p class="vctl">Auto-delivery schedule</p>
+        <div class="vct-items">
+          <div class="vct-i"><div class="vcti-d" style="background:#40E080"></div><span class="vcti-t"><strong>Rahul's Birthday</strong> — Maa ki awaaz mein</span><span class="vcti-y">Jun 12</span></div>
+          <div class="vct-i"><div class="vcti-d" style="background:#F6D58A"></div><span class="vcti-t"><strong>Diwali</strong> — Living Portrait delivered</span><span class="vcti-y">Oct</span></div>
+          <div class="vct-i"><div class="vcti-d" style="background:rgba(255,255,255,0.15)"></div><span class="vcti-t" style="color:rgba(255,255,255,0.25)"><strong>Anniversary</strong> — scheduled</span><span class="vcti-y" style="color:rgba(255,255,255,0.15)">Nov</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="free-bn">
+      <div class="fb-l"><p class="fb-m"><em>Free</em> to start.</p><p class="fb-s">One consent. Films forever. No card needed.</p></div>
+      <button class="fb-b">Start Vault →</button>
+    </div>
+
+    <div class="f5-ct">
+      <button class="cta-p">Start preserving — Free →</button>
+      <button class="cta-s on-dark">Learn how the Vault works</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FOLD 6 ═══════════════ -->
+<div class="f6">
+  <div class="f6-tr"></div><div class="f6-bg"></div>
+  <div class="f6-inner">
+    <div class="sect-bar on-ivory" style="margin-bottom:24px">
+      <span class="sb-n" style="color:rgba(13,15,23,0.2)">№ 05</span>
+      <div class="sb-r" style="background:rgba(13,15,23,0.1)"></div>
+      <span class="sb-t" style="color:rgba(13,15,23,0.2)">Trust</span>
+    </div>
+    <h2 class="f6-hl">Treated like <em>family,</em><br>not like a bank.</h2>
+    <p class="f6-sub">You are handing us your father's voice.<br>We will not let you down.</p>
+
+    <div class="trust-l">
+      <div class="ti"><div class="ti-top"><span class="ti-tit">Consent-first</span><div class="ti-ck">✓</div></div><p class="ti-bd">Family gives consent once. We verify. Surprises happen forever after that. Nobody is cloned without knowing.</p></div>
+      <div class="ti"><div class="ti-top"><span class="ti-tit">Face-verified</span><div class="ti-ck">✓</div></div><p class="ti-bd">Every photo matches a signup selfie. No exceptions. No voice letter created for a stranger's family.</p></div>
+      <div class="ti"><div class="ti-top"><span class="ti-tit">Watermarked</span><div class="ti-ck">✓</div></div><p class="ti-bd">Every clip carries an invisible watermark. If it ever appears somewhere it shouldn't — it's traceable.</p></div>
+      <div class="ti"><div class="ti-top"><span class="ti-tit">DPDPA compliant</span><div class="ti-ck">✓</div></div><p class="ti-bd">Indian law. Indian servers. Indian families. Your data never leaves India.</p></div>
+    </div>
+
+    <div class="priv-b">
+      <div class="pb-gl"></div>
+      <p class="pb-q"><em>"What you share with us, stays with you.</em> We just hold the key.<br><br>A team of <span class="pb-am">real people</span> reviews every piece. No film arrives untouched by a human hand."</p>
+      <div class="pb-is">
+        <div class="pb-i"><div class="pbi-d"></div><span class="pbi-t">If you ever want a voice, a face, or a photograph taken down — same day. We say yes.</span></div>
+        <div class="pb-i"><div class="pbi-d"></div><span class="pbi-t">No logos. No badges. No fine print. Write to us and a person will reply.</span></div>
+        <div class="pb-i"><div class="pbi-d"></div><span class="pbi-t">Indian servers. Indian team. Your family's data never leaves India.</span></div>
+      </div>
+    </div>
+
+    <div class="f6-hm">
+      <h3 class="f6hm-hl">Every film is touched<br>by a <em>human hand.</em></h3>
+      <p class="f6hm-sub">AI creates the draft. Our team reviews, refines, and approves every piece before it reaches you. Nothing automated. Nothing untouched.</p>
+    </div>
+
+    <div class="f6-ct">
+      <button class="cta-p">Start Your Film — Starting ₹299 →</button>
+      <p class="f6-nt">Questions? Write to us. A real person will reply within 2 hours.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FOLD 7 ═══════════════ -->
+<div class="f7">
+  <div class="f7-bg"></div>
+  <div class="f7-inner">
+    <div class="sect-bar on-ivory" style="margin-bottom:20px">
+      <span class="sb-n" style="color:rgba(13,15,23,0.2)">№ 06</span>
+      <div class="sb-r" style="background:rgba(13,15,23,0.1)"></div>
+      <span class="sb-t" style="color:rgba(13,15,23,0.2)">From Our Families</span>
+    </div>
+    <h2 class="f7-shl">10,000 families.<br><em>Same first reaction.</em></h2>
+    <p class="f7-ssub">They cry. Then they share it with the rest of the family.</p>
+
+    <div class="stats-r">
+      <div class="st-i" style="padding-right:10px"><span class="st-n">10,000+</span><span class="st-l">Families</span></div>
+      <div class="st-i" style="padding:14px 10px"><span class="st-n">4.9/5</span><span class="st-l">Rating</span></div>
+      <div class="st-i" style="padding:14px 0 14px 10px"><span class="st-n">50,000+</span><span class="st-l">Films</span></div>
+    </div>
+
+    <div class="testis">
+      <div class="tcard">
+        <div class="tc-top"><div class="tc-av">R</div><div class="tc-inf"><p class="tc-nm">Rohit M.</p><p class="tc-mt">Bengaluru · Voice Letter</p></div><div class="tc-st"><span class="tc-s">★</span><span class="tc-s">★</span><span class="tc-s">★</span><span class="tc-s">★</span><span class="tc-s">★</span></div></div>
+        <p class="tc-q">"Papa passed two years ago. This was the first time my family heard his voice on Diwali since then. My mother <em>couldn't speak for ten minutes.</em>"</p>
+        <div class="tc-pt"><div class="tpt-d" style="background:#40E080"></div><span class="tpt-n">AI Voice Letter · ₹299</span></div>
+      </div>
+      <div class="tcard">
+        <div class="tc-top"><div class="tc-av">P</div><div class="tc-inf"><p class="tc-nm">Priya S.</p><p class="tc-mt">London · Living Portrait</p></div><div class="tc-st"><span class="tc-s">★</span><span class="tc-s">★</span><span class="tc-s">★</span><span class="tc-s">★</span><span class="tc-s">★</span></div></div>
+        <p class="tc-q">"Sent this for my Nani's 80th from London. She saw herself in the portrait and said — <em>'Beta, mujhe nahi pata tha main itni sundar hoon.'</em>"</p>
+        <div class="tc-pt"><div class="tpt-d" style="background:#F6D58A"></div><span class="tpt-n">Living Portrait · ₹499</span></div>
+      </div>
+      <div class="tcard">
+        <div class="tc-top"><div class="tc-av">A</div><div class="tc-inf"><p class="tc-nm">Ankit V.</p><p class="tc-mt">Dubai · Handwritten Letter</p></div><div class="tc-st"><span class="tc-s">★</span><span class="tc-s">★</span><span class="tc-s">★</span><span class="tc-s">★</span><span class="tc-s">★</span></div></div>
+        <p class="tc-q">"Worth every dollar. Ma's handwriting on real paper. My father — who hasn't cried in twenty years — <em>cried.</em>"</p>
+        <div class="tc-pt"><div class="tpt-d" style="background:#F6BE64"></div><span class="tpt-n">Handwritten Letter · ₹499</span></div>
+      </div>
+    </div>
+
+    <div class="fin-bl">
+      <div class="fin-gl"></div>
+      <div class="fin-ey"><div class="fin-ey-l"></div>Start filming</div>
+      <h2 class="fin-hl">There's a <em>movie</em><br>hidden in every life.</h2>
+      <p class="fin-hi">Har zindagi mein ek film chupi hai.</p>
+      <button class="fin-cp">Start Your Film — Starting ₹299 →</button>
+      <button class="fin-cs"><div class="fcs-pw"><div class="fcs-pt"></div></div>Watch the full sample film</button>
+    </div>
+
+    <div class="meta-row" style="margin-bottom:28px">
+      <div class="mi ivory"><div class="wa-g"></div><span class="wa-t">WhatsApp delivery</span></div>
+      <div class="m-sep ivory"></div>
+      <div class="mi ivory">Starting ₹299</div>
+      <div class="m-sep ivory"></div>
+      <div class="mi ivory">No app needed</div>
+    </div>
+
+    <div class="footer">
+      <div class="fl">Siy<span>AI</span></div>
+      <div class="fl-links">
+        <span class="fl-link">How it works</span><span class="fl-link">Products</span>
+        <span class="fl-link">Pricing</span><span class="fl-link">Legacy Vault</span>
+        <span class="fl-link">Privacy</span><span class="fl-link">Contact</span>
+      </div>
+      <p class="fl-bt">© 2024 SiyAI · Made in India · Indian servers · Indian families<br>A memory film studio for every family.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end phone -->
+
+<script>
+// ── FOLD 1 ──
+const f1data = [
+  {lbl:'A SiyAI Film · Papa ki 60th Birthday', hl:'There\'s a <em>movie</em><br>hidden in every life.', hi:'Har zindagi mein ek film chupi hai.'},
+  {lbl:'A SiyAI Film · For yourself', hl:'<em>Your story</em><br>deserves to be on film.', hi:'Ek pal dijiye. Hum use film bana denge.'},
+  {lbl:'A SiyAI Film · Sharma Family Forever', hl:'Some voices should<br><em>never fade.</em>', hi:'Unhe hamesha ke liye rakh lo.'}
+];
+let f1m=0;
+const dotsEl=document.getElementById('f1dots');
+f1data.forEach((_,i)=>{
+  const d=document.createElement('div'); d.className='f1-dot'+(i===0?' active':'');
+  d.style.width=i===0?'36px':'14px'; d.onclick=()=>setF1(i); dotsEl.appendChild(d);
+});
+function setF1(i){
+  f1m=i; const m=f1data[i];
+  document.getElementById('f1lbl').textContent=m.lbl;
+  document.getElementById('f1hl').innerHTML=m.hl;
+  document.getElementById('f1hi').textContent=m.hi;
+  dotsEl.querySelectorAll('.f1-dot').forEach((d,j)=>{
+    d.className='f1-dot'+(j<i?' done':j===i?' active':'');
+    d.style.width=j===i?'36px':'14px';
+  });
+}
+setInterval(()=>setF1((f1m+1)%3),4500);
+let f1s=0; const f1iv=setInterval(()=>{f1s++;const p=(f1s/120)*100;if(p>=100){clearInterval(f1iv);return;}document.getElementById('f1pf').style.width=p+'%';},1000);
+function toggleMute(){const i=document.getElementById('mIcon'),t=document.getElementById('mText');const m=i.textContent==='🔇';i.textContent=m?'🔊':'🔇';t.textContent=m?'Mute':'Unmute';}
+function openFS(){document.getElementById('fsov').classList.add('open');}
+function closeFS(){document.getElementById('fsov').classList.remove('open');}
+
+// ── FOLD 2 voice ──
+const wvWF=document.getElementById('wvWF');
+[22,40,62,28,74,46,32,68,44,24,58,78,36,54,26,64,42,30,70,48,22,56,72,38,50,28,62,40,30,52,24,44,68,32,56,22,48,36,26,62].forEach((h,i)=>{
+  const b=document.createElement('div');b.className='wv-bar';b.style.height=h+'%';b.style.animationDelay=(i*0.05)+'s';wvWF.appendChild(b);
+});
+let wvP=false,wvS=0,wvIv=null; const wvBs=wvWF.querySelectorAll('.wv-bar');
+function toggleVoice(){
+  wvP=!wvP; const icon=document.getElementById('wvIcon');
+  if(wvP){
+    icon.className='';icon.innerHTML='<div class="wv-pause"><div class="wv-pb"></div><div class="wv-pb"></div></div>';
+    wvIv=setInterval(()=>{wvS++;if(wvS>=60){clearInterval(wvIv);wvP=false;icon.innerHTML='';icon.className='wv-tri';return;}
+    document.getElementById('wvTm').textContent=`0:${String(wvS).padStart(2,'0')}`;
+    const lit=Math.floor((wvS/60)*wvBs.length);wvBs.forEach((b,i)=>{if(i<=lit)b.classList.add('lit');else b.classList.remove('lit');});},1000);
+  }else{clearInterval(wvIv);icon.innerHTML='';icon.className='wv-tri';}
+}
+
+// ── FOLD 3 mini wf ──
+const mwf1=document.getElementById('mwf1');
+[22,40,58,28,70,44,30,65,42,24,55,72,34,50,26,60,40,28,66,44].forEach((h,i)=>{
+  const b=document.createElement('div');b.className='mwb'+(i>=6&&i<=14?' a':'');b.style.height=h+'%';b.style.animationDelay=(i*0.06)+'s';mwf1.appendChild(b);
+});
+
+// ── FOLD 4 occasions ──
+const occs=[
+  {em:'🎂',nm:'Birthday',pf:'Most filmed',hl:'"Hear them say your name — in their own voice."',ps:[{d:'#40E080',n:'Voice Letter',p:'₹299'},{d:'#F6D58A',n:'Living Portrait',p:'₹499'},{d:'#A6E3FF',n:'Custom Song',p:'₹999'}]},
+  {em:'💛',nm:'Anniversary',pf:'Most emotional',hl:'"A song only the two of them will ever have."',ps:[{d:'#A6E3FF',n:'Custom Song',p:'₹999'},{d:'#40E080',n:'Voice Letter',p:'₹299'}]},
+  {em:'🪔',nm:'Diwali',pf:'Most shared',hl:'"Papa ki awaaz mein — happy Diwali, every year."',ps:[{d:'#40E080',n:'Voice Letter',p:'₹299'},{d:'#F6D58A',n:'Living Portrait',p:'₹499'}]},
+  {em:'💍',nm:'Wedding',pf:'Most cinematic',hl:'"Their love story — told as a film."',ps:[{d:'#A6E3FF',n:'Custom Song',p:'₹999'},{d:'#F6BE64',n:'Memory Film',p:'₹1,999'}]},
+  {em:'🧡',nm:'Rakhi',pf:'Most personal',hl:'"Words Bhai never said out loud."',ps:[{d:'#40E080',n:'Voice Letter',p:'₹299'},{d:'#F6BE64',n:'Handwritten Letter',p:'₹499'}]},
+  {em:'🎓',nm:'Graduation',pf:'Most aspirational',hl:'"The day they made the family proud — on film."',ps:[{d:'#F6BE64',n:'Memory Film',p:'₹1,999'},{d:'#A6E3FF',n:'Custom Song',p:'₹999'}]},
+  {em:'💼',nm:'First Salary',pf:'Most meaningful',hl:'"Thank them the way no gift ever has."',ps:[{d:'#40E080',n:'Voice Letter',p:'₹299'},{d:'#F6D58A',n:'Living Portrait',p:'₹499'}]},
+  {em:'🕯️',nm:'Memorial',pf:'Most treasured',hl:'"Their voice. Still here. Still wishing you well."',ps:[{d:'#40E080',n:'Voice Letter',p:'₹299'},{d:'#F6D58A',n:'Living Portrait',p:'₹499'}]},
+];
+function selOcc(i){
+  document.querySelectorAll('.occ-t').forEach((t,j)=>t.classList.toggle('active',j===i));
+  const o=occs[i];
+  document.getElementById('odEm').textContent=o.em;
+  document.getElementById('odNm').textContent=o.nm;
+  document.getElementById('odPf').textContent=o.pf;
+  document.getElementById('odHl').textContent=o.hl;
+  document.getElementById('odCta').textContent=`Film for ${o.nm} →`;
+  const pd=document.getElementById('odProds');pd.innerHTML='';
+  o.ps.forEach(p=>{const el=document.createElement('div');el.className='od-prod';el.innerHTML=`<div class="odp-dot" style="background:${p.d}"></div><span class="odp-nm">${p.n}</span><span class="odp-pr">${p.p}</span>`;pd.appendChild(el);});
+}
+selOcc(0);
+</script>
+</body>
+</html>
